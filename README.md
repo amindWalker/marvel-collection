@@ -44,7 +44,7 @@ To run this project you need the following:
 - Allow any permissions this applications may ask
 
 
-###### ================ RUNNING PROJECT ================
+##### ================ RUNNING PROJECT ================
 
 Download the project (or ***git clone***), extract and open a CMD.exe (aka Command Prompt) or Terminal (Linux/MacOS) and navigate to inside the root of the extracted folder and run the following commands:
 
