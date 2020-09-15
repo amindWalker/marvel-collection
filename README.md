@@ -1,15 +1,17 @@
 <div align="center">
+
 ![alt text](https://i.imgur.com/PadWRbV.png)
+
 </div>
 
-###### TESTED ONLY WITH ANDROID DEVICE!
+##### TESTED ONLY WITH ANDROID DEVICE!
 🚧 
 iOS should be fine, but its a WIP project and i can't garantee stable release just yet.
 But I will make sure both platforms perfom the same as soon as I get one iOS device.
 
 ----------
 
-###### TODO
+##### TODO
  
 - [ ] optimize performance
 - [ ] animation effects
@@ -22,7 +24,7 @@ But I will make sure both platforms perfom the same as soon as I get one iOS dev
 
 To run this project you need the following: 
 
-###### ================= INSTALLATION =================
+##### ================= INSTALLATION =================
 -   Install NODEjs for your specific OS: 
 
 	https://nodejs.org/en/
