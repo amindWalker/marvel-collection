@@ -2,26 +2,27 @@
 ![alt text](https://i.imgur.com/PadWRbV.png)
 </div>
 
-TESTED ONLY WITH ANDROID DEVICE!
-
+######TESTED ONLY WITH ANDROID DEVICE!
+🚧 
 iOS should be fine, but its a WIP project and i can't garantee stable release just yet.
 But I will make sure both platforms perfom the same as soon as I get one iOS device.
 
-/---------------------------------------------------------------------------------------/ 
+----------
 
-TODO
+######TODO
+ 
+- [ ] optimize performance
+- [ ] animation effects
+- [ ] sound effects
+- [ ] save full resolution images in local storage
+- [ ] get real-time GPS data from user to find nearby stores
 
-- optimize performance
-- animation effects
-- sound effects
-- save full resolution images in local storage
-- get real-time GPS data from user to find nearby stores
+----------
 
-/---------------------------------------------------------------------------------------/ 
 
 To run this project you need the following: 
 
-/================= INSTALLATION =================/ 
+######================= INSTALLATION =================
 -   Install NODEjs for your specific OS: 
 
 	https://nodejs.org/en/
@@ -41,17 +42,16 @@ To run this project you need the following:
 - Allow any permissions this applications may asks
 
 
-/================ RUNNING PROJECT ================/ 
+######================ RUNNING PROJECT ================
 
-Download the project, extract and open a CMD.exe (aka Command Prompt) or Terminal (Linux/MacOS) and navigate to inside the root of the extracted folder and run the following commands:
-
--   commands:
+Download the project (or ***git clone***), extract and open a CMD.exe (aka Command Prompt) or Terminal (Linux/MacOS) and navigate to inside the root of the extracted folder and run the following commands:
 
     yarn
 
     expo start -a (if you have a android device)
 
     expo start -i (if you have a ios device)
+
 
 That's it. Wait all those process till the end. You should be running the Marvel Library by now.
 
