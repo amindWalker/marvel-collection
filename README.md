@@ -2,14 +2,14 @@
 ![alt text](https://i.imgur.com/PadWRbV.png)
 </div>
 
-######TESTED ONLY WITH ANDROID DEVICE!
+###### TESTED ONLY WITH ANDROID DEVICE!
 🚧 
 iOS should be fine, but its a WIP project and i can't garantee stable release just yet.
 But I will make sure both platforms perfom the same as soon as I get one iOS device.
 
 ----------
 
-######TODO
+###### TODO
  
 - [ ] optimize performance
 - [ ] animation effects
@@ -22,7 +22,7 @@ But I will make sure both platforms perfom the same as soon as I get one iOS dev
 
 To run this project you need the following: 
 
-######================= INSTALLATION =================
+###### ================= INSTALLATION =================
 -   Install NODEjs for your specific OS: 
 
 	https://nodejs.org/en/
@@ -39,10 +39,10 @@ To run this project you need the following:
 
 - Install the Expo client (currently this project run the latest version, right now v35, of the Expo SDK which is only compatible with versions 35, 34 and 33) app on your iOS (App Store) or Android (Play Store) phone and connect to the same wireless network as your computer. On Android, use the Expo app to scan the QR code from your terminal to open your project (or connect through USB for faster data transfers). On iOS, follow on-screen instructions to get a link
 
-- Allow any permissions this applications may asks
+- Allow any permissions this applications may ask
 
 
-######================ RUNNING PROJECT ================
+###### ================ RUNNING PROJECT ================
 
 Download the project (or ***git clone***), extract and open a CMD.exe (aka Command Prompt) or Terminal (Linux/MacOS) and navigate to inside the root of the extracted folder and run the following commands:
 
