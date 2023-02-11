@@ -1,0 +1,18 @@
+[package]
+name = "marvel-collection"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+# console_error_panic_hook = "0.1.7"
+wasm-logger = "0.2.0"
+log = "0.4.17"
+dioxus = { git = "https://github.com/DioxusLabs/dioxus.git" }
+dioxus-router = { git = "https://github.com/DioxusLabs/dioxus.git" }
+dioxus-web = { git = "https://github.com/DioxusLabs/dioxus.git" }
+gloo-net = "0.2.6"
+serde = { version = "1.0.152", features = ["derive"] }
+rand = { version = "0.8.5", features = ["nightly"] }
+getrandom = { version = "0.2.8", features = ["js"] }
