@@ -25,4 +25,4 @@ serve-dioxus-web-release:
 #     cd {{justfile_directory()}}/{{sample}}; cargo build {{target}}
 
 # push sample:
-#     wasm-to-oci push target/wasm32-wasi/debug/{{sample}}.wasm rustlinzwasm.azurecr.io/wagi-{{sample}}-oci:latest
+#     wasm-to-oci push target/wasm32-wasi/debug/{{sample}}.wasm docker.io/wagi-{{sample}}-oci:latest

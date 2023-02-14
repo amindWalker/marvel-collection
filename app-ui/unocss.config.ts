@@ -16,12 +16,14 @@ export default {
         presetTypography(),
         presetWebFonts({
             provider: "google",
-            fonts: {},
+            fonts: {
+                sans: ["Montserrat:900"],
+            },
         }),
         presetUno(),
     ],
     shortcuts: {
-        "main-container": "@apply all:transition-all all:duration-500",
-        "hovercard": "border-2 xl:border-4 rounded hover:(border-red-700 brightness-150 -translate-y-2 drop-shadow-xl) focus:(border-red-700 brightness-150 -translate-y-2 drop-shadow-xl)",
+        "main-container": "@apply all:(transition-all duration-500 border-none outline-none ease-in-out animate-ease-in-out)",
+        "hovercard": "opacity-50 rounded-lg hover:(outline-red-600 opacity-100 brightness-125 -translate-y-2) focus:(outline-red-600 opacity-100 brightness-125 -translate-y-2)",
     },
 };

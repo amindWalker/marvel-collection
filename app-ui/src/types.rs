@@ -1,15 +1,16 @@
 use serde::{self, Deserialize, Serialize};
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
-// #[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase")]
 pub struct MarvelRoot {
-    // pub code: i64,
-    // pub status: String,
-    // pub copyright: String,
-    // pub attribution_text: String,
-    // #[serde(rename = "attributionHTML")]
-    // pub attribution_html: String,
-    // pub etag: String,
+    pub code: i64,
+    pub status: String,
+    pub copyright: String,
+    #[serde(rename = "attributionText")]
+    pub attribution_text: String,
+    #[serde(rename = "attributionHTML")]
+    pub attribution_html: String,
+    pub etag: String,
     pub data: Data,
 }
 
