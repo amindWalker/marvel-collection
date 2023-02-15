@@ -1,12 +1,15 @@
 #![allow(non_snake_case)]
 #![feature(async_closure)]
 
-use dioxus::prelude::*;
-use dioxus_router::{Router, Route, Redirect};
 mod types;
 mod components;
-use components::{HeroProfile, Home};
 mod api_service;
+
+use dioxus::prelude::*;
+use dioxus_router::{Router, Route, Redirect};
+use components::{HeroProfile, Home, Nav};
+
+
 
 fn main() {
     // wasm_logger::init(wasm_logger::Config::default());
@@ -20,6 +23,7 @@ fn App(cx: Scope) -> Element {
     cx.render(rsx! {
         rsx!{
             Router {
+                Nav {}
                 Route { to: "/home", Home {} }
                 Route { to: "/hero", HeroProfile {} }
                 Redirect { from: "", to: "/home" }

@@ -4,38 +4,39 @@ use crate::api_service::*;
 
 pub fn Card(cx: Scope) -> Element {
     let limit = pagination(cx).read_limit();
+    let comics_len = limit as usize -1;
     cx.render(rsx! {
         match root_api(cx) {
             Ok(comic) => {
                 rsx! {
                     div {
-                        class: "@apply -rotate-2 self-center min-h-max grid grid-flow-col overflow-x-scroll",
-                        header { class: "grid",
+                        class: "@apply -rotate-2 p4 -ml8 self-center min-h-max grid grid-flow-col overflow-x-scroll overflow-y-hidden",
+                        header { class: "grid max-w-48",
                             h1 {
                                 class: "text-center self-center -rotate-90 font-sans text-white text-6xl animate-pulse animate-ease-in-out", "CHOOSE " br{}
                                 sup {class: "text-3xl", "YOUR HERO"}
                             }
                         }
-                        comic.data.results.clone().iter().enumerate().map(|(i, hero)| {
+                        comic.data.results.iter().enumerate().map(|(i, hero)| {
                             let hover_state = use_state(cx, || false); // moved use_state here since key does not work as expected
                             let opacity = if **hover_state {"1"} else {"0"};
                             let key = hero.id;
                             let thumb = format!("{}.{}", hero.thumbnail.path, hero.thumbnail.extension);
-                            let thumb = if thumb == "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg" {"".to_string()} else {thumb};
+                            let thumb = if thumb == "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg" {"assets/MarvelUnavailable.svg".to_string()} else {thumb};
                             rsx! {
                                 picture {
                                     class: "@apply self-center",
                                     key: "{key}",
-                                    onmouseenter: move |_| {
+                                    onpointerdown: move |_| {
                                         let state = !hover_state;
                                         hover_state.set(state);
                                     },
-                                    onmouseleave: move |_| {
+                                    onpointerup: move |_| {
                                         let state = !hover_state;
                                         hover_state.set(state);
                                     },
                                     figure {
-                                        class: "@apply grid max-w-64 m-0.5 overflow-visible animate-fade-in-right",
+                                        class: "@apply grid max-w-64 m-0.5 animate-fade-in-right",
                                         style: "animation-delay: {i}00ms;",
                                         figcaption {
                                             class: "@apply text-center p4",
@@ -45,38 +46,40 @@ pub fn Card(cx: Scope) -> Element {
                                         Link {
                                             to: "/hero",
                                             i {
-                                                class: "@apply i-mdi:chevron-up-circle z2 hover:bg-white fixed m2 ml4 p5 rounded-full border-none outline-none appearance-none",
+                                                class: "@apply i-mdi:chevron-up-circle z3 hover:bg-white fixed m2 ml4 p5 rounded-full border-none outline-none appearance-none",
                                                 style: "opacity: {opacity};"
                                             },
                                         }
                                         img {
-                                            autofocus: if i == 0 {"true"} else {"false"},
                                             tabindex: "0",
-                                            class: "@apply z1 hovercard w64 h64 max-w-64 max-h-64",
+                                            class: "@apply z2 hovercard w64 h64 max-w-64 max-h-64",
                                             style: "animation-delay: {i}00ms;",
                                             src: "{thumb}",
                                             alt: "{hero.name}",
-                                            onfocus: move |_| {
+                                            onfocusin: move |_| {
                                                 let state = !hover_state;
                                                 hover_state.set(state);
                                             },
-                                            onblur: move |_| {
+                                            onfocusout: move |_| {
                                                 let state = !hover_state;
                                                 hover_state.set(state);
                                             },
                                         },
                                         legend {
-                                            class: "@apply bg-white text-center opacity-0 p4 rounded",
+                                            class: "@apply z1 bg-white text-center opacity-0 p4 rounded",
                                             style: "opacity: {opacity};",
                                             "Comics avaiable: {hero.comics.available}"
                                         }
                                     }
-                                    if i == limit as usize -1 {
-                                        let size = i * 17;
+                                    if i == comics_len {
+                                        let header_size = 12;
+                                        let card_size = 16 + 1; // card size + padding/margin
+                                        let size = (limit * card_size) + header_size;
                                         rsx! {
                                             div {
-                                                class: "@apply absolute left-0 self-center justify-self-center border-b border-16 border-black blur-2xl",
+                                                class: "@apply z0 absolute left-0 self-center justify-self-center bg-black blur-2xl",
                                                 style: "width: {size}rem;",
+                                                "_",
                                             }
                                         }
                                     }
@@ -86,7 +89,7 @@ pub fn Card(cx: Scope) -> Element {
                     }
                 }
             },
-            Err(_) => rsx! { p { "Error while loading the database." } },
+            Err(_) => rsx! { p { "Waiting the database. If its taking too long wait a few minutes and try again." } },
         }
     })
 }

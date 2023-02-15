@@ -6,3 +6,6 @@ pub use HeroProfile::*;
 
 mod Home;
 pub use Home::*;
+
+mod Nav;
+pub use Nav::*;
