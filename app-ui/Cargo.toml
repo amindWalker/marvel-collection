@@ -7,12 +7,18 @@ edition = "2021"
 
 [dependencies]
 # console_error_panic_hook = "0.1.7"
-wasm-logger = "0.2.0"
-log = "0.4.17"
-dioxus = { git = "https://github.com/DioxusLabs/dioxus.git" }
-dioxus-router = { git = "https://github.com/DioxusLabs/dioxus.git" }
-dioxus-web = { git = "https://github.com/DioxusLabs/dioxus.git" }
-gloo-net = "0.2.6"
-serde = { version = "1.0.152", features = ["derive"] }
-rand = { version = "0.8.5", features = ["nightly"] }
-getrandom = { version = "0.2.8", features = ["js"] }
+wasm-logger = "*"
+log = "*"
+dioxus = "*"
+dioxus-router = "*"
+dioxus-web = "*"
+gloo-net = "*"
+serde = { version = "*", features = ["derive"] }
+# cached = { version = "*", features = ["wasm"] }
+
+[profile.release]
+strip = true
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"

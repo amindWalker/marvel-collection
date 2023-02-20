@@ -1,121 +1,112 @@
+// External depencendies
 use dioxus::prelude::*;
+// Local depencendies
+use crate::{api_service::pagination, types::MarvelRoot};
 
-use crate::api_service::{root_api, pagination};
+#[derive(Clone)]
+pub struct NavBar(pub bool);
 
 pub fn Nav(cx: Scope) -> Element {
-    let is_open = use_state(cx, || false);
-    let hamburger_menu = if **is_open {"-16rem"} else {"0"};
-    let display = if **is_open {"block"} else {"none"};
-    let offset_state = use_state(cx, || false);
+    let is_open = use_shared_state::<NavBar>(cx).unwrap();
+    let hamburger_container = if is_open.read().0 {"0"} else {"-24rem"};
+    let hamburger_menu = if is_open.read().0 {"none"} else {"block"};
+    let offset_state = use_state(cx, || 0);
     let limit_state = use_state(cx, || false);
+    let api_data = use_shared_state::<MarvelRoot>(cx);
+
     cx.render(rsx! {
+        //> MAIN HEADER
         header {
-            class: "@apply base-container fixed z1 w-full bg-black bg-opacity-50 backdrop-blur flex items-center justify-center drop-shadow-lg",
+            class: "@apply base-container fixed z2 w-full bg-black bg-opacity-50 backdrop-blur flex items-center justify-center drop-shadow-lg",
             i {
                 class: "i-line-md:menu absolute left-4 p4 bg-white opacity-80 cursor-pointer",
-                style: "display: {display};",
+                style: "display: {hamburger_menu};",
                 onclick: move |_| {
-                    let state = !is_open;
-                    is_open.set(state);
-                }
+                    let state = !is_open.read().0;
+                    is_open.write().0 = state;
+                },
             }
-            svg { height: "52", xmlns: "http://www.w3.org/2000/svg", width: "130",
-                rect { height: "100%", width: "100%", fill: "#EC1D24" }
-                path {
-                    d: "M126.222 40.059v7.906H111.58V4h7.885v36.059h6.757zm-62.564-14.5c-.61.294-1.248.44-1.87.442v-14.14h.04c.622-.005 5.264.184 5.264 6.993 0 3.559-1.58 5.804-3.434 6.705zM40.55 34.24l2.183-18.799 2.265 18.799H40.55zm69.655-22.215V4.007H87.879l-3.675 26.779-3.63-26.78h-8.052l.901 7.15c-.928-1.832-4.224-7.15-11.48-7.15-.047-.002-8.06 0-8.06 0l-.031 39.032-5.868-39.031-10.545-.005-6.072 40.44.002-40.435H21.278L17.64 26.724 14.096 4.006H4v43.966h7.95V26.78l3.618 21.192h4.226l3.565-21.192v21.192h15.327l.928-6.762h6.17l.927 6.762 15.047.008h.01v-.008h.02V33.702l1.845-.27 3.817 14.55h7.784l-.002-.01h.022l-5.011-17.048c2.538-1.88 5.406-6.644 4.643-11.203v-.002C74.894 19.777 79.615 48 79.615 48l9.256-.027 6.327-39.85v39.85h15.007v-7.908h-7.124v-10.08h7.124v-8.03h-7.124v-9.931h7.124z",
-                    fill: "#FEFEFE"
-                }
-                path { fill: "#EC1D24", d: "M0 0h30v52H0z" }
-                path {
-                    fill: "#FEFEFE",
-                    d: "M31.5 48V4H21.291l-3.64 22.735L14.102 4H4v44h8V26.792L15.577 48h4.229l3.568-21.208V48z"
-                }
+            a {
+                class: "hover:drop-shadow-2xl hover:scale-110",
+                href: "https://marvel.com",
+                img { src: "assets/marvel.svg" }
             }
         }
+        //> NAV
         nav {
-            class: "@apply base-container p4 grid z2 fixed h-full max-w-48 md:max-w-64 place-items-center backdrop-filter backdrop-blur-xl backdrop-saturate-50 shadow-2xl shadow-black rounded-tr-xl text-white text-opacity-50",
-            style: "transform: translateX({hamburger_menu});",
-            match root_api(cx) {
-                Ok(comic) => {
+            class: "@apply transition-all duration-500 font-mono p4 z2 absolute grid h-full max-w-min place-items-center backdrop-filter backdrop-blur-xl backdrop-saturate-50 shadow-2xl shadow-black rounded-tr-xl text-white text-opacity-70",
+            style: "transform: translateX({hamburger_container});",
+            match api_data {
+                Some(comic) => {
+                    let comic = comic.read().clone();
                     rsx! {
                         i {
                             class: "@apply i-line-md:close justify-self-end self-start p4 cursor-pointer ",
                             onclick: move |_| {
-                                let state = !is_open;
-                                is_open.set(state);
-                            }
+                                let state = !is_open.read().0;
+                                is_open.write().0 = state;
+                            },
                         }
+                        //> MENU
                         menu {
-                            class: "@apply grid h-full",
+                            class: "@apply grid h-full mb34 text-lg text-center",
                             div {
-                                class: "self-start text-center font-bold text-xl",
-                                "RESULTS: {comic.data.total}",
-                            }
-                            p {
-                                class: "self-end text-center",
-                                p { class: "font-bold", "Offset results" }
-                            }
-                            form {
-                                class: "text-center grid place-items-center",
-                                input {
-                                    class: "appearance-none style border-none py2 max-w-80% outline-none bg-black bg-opacity-10 hover:bg-opacity-20 rounded-md text-center placeholder-light-500",
-                                    r#type: "search",
+                                class: "text-center grid place-items-center rounded-lg",
+                                h2 {
+                                    class: "text-center self-center font-bold text-6xl leading-6 rounded-lg",
+                                    "{comic.data.total}",
+                                    p {class: "text-4xl text-red-700 text-shadow-lg", "comics" }
                                 }
-                                "From 0 - {comic.data.total}",
-                                button {
-                                    r#type: "submit",
-                                }
-                            }
-                            p {
-                                class: "self-end text-center",
                                 p {
-                                    class: "font-bold",
-                                    "Results count: ", "{comic.data.count}"
+                                    class: "self-end text-center font-bold",
+                                    "Offset comics"
                                 }
-                                "narrow/wider results",
-                            }
-                            div {
-                                class: "grid grid-cols-2 auto-rows-min place-items-center",
-                                [1,2,3,4,5].iter().map(|item| {
-                                    rsx! {
-                                        input {
-                                            class: "@apply mx4 cursor-pointer appearance-none  p5 i-line-md:switch-off checked:i-line-md:switch-filled hover:bg-white",
-                                            r#type: "radio",
-                                            name: "pagination",
-                                            value: "{item:?}",
-                                            checked: if *item == 1 {"true"} else {"false"},
-                                            onchange: move |event| {
-                                                let state = event.value == "{item}";
-                                                limit_state.set(state);
-                                                let limit = item * 20;
-                                                pagination(cx).set_limit(limit);
-                                            },
-                                        }
-                                        p { class: "font-bold", "{item * 20}" }
+                                div {
+                                    class: "grid",
+                                    input {
+                                        class: "transition-all duration-500 p2 bg-black bg-opacity-10 hover:bg-opacity-20 rounded-t-lg text-center placeholder-light-500",
+                                        r#type: "search",
+                                        prevent_default: "oninput",
+                                        onchange: move |event| {
+                                            let state = &event.value;
+                                            offset_state.set(state.clone().parse::<usize>().unwrap());
+                                            pagination(cx).set_offset(state.clone().parse::<usize>().unwrap());
+                                        },
                                     }
-                                })
-                            }
-                        }
-                        footer {
-                            class: "@apply grid",
-                            a {
-                                class: "text-center hover:text-white",
-                                href: "https://marvel.com",
-                                p {"{comic.attribution_text}"}
-                            }
-                            p {
-                                class: "text-center",
-                                "Made in Full Rust Stack"
-                            }
-                            a {
-                                class: "text-center hover:text-white",
-                                href: "https://github.com/amindWalker",
-                                p {"by Breno Rocha" }
+                                    button {
+                                        class: "transition-all duration-500 bg-red-700 bg-opacity-80 hover:bg-opacity-100 p2 rounded-b-lg focus:brightness-125",
+                                        "Go"
+                                    }
+                                }
+                                p {class: "self-start", "From 0 - {comic.data.total}"},
+                                div {
+                                    class: "base-container grid grid-cols-2 p4 pt10 gap-x-8 place-items-center",
+                                    p { class: "absolute self-start mt4 text-center font-bold", "Range limits" }
+
+                                    [1,2,3,4,5].iter().map(|item| {
+                                        rsx! {
+                                            input {
+                                                class: "@apply cursor-pointer appearance-none p5 i-mdi:toggle-switch-off checked:i-mdi:toggle-switch invert checked:invert-0 checked:bg-white",
+                                                r#type: "radio",
+                                                name: "pagination",
+                                                value: "{item:?}",
+                                                checked: if *item == 1 {"true"} else {"false"},
+                                                onchange: move |event| {
+                                                    let state = event.value == "{item}";
+                                                    limit_state.set(state);
+                                                    let limit = item * 20;
+                                                    pagination(cx).set_limit(limit);
+                                                },
+                                            }
+                                            p { class: "font-bold", "{item * 20}" }
+                                        }
+                                    })
+                                }
                             }
                         }
                     }
                 },
-                Err(_) => rsx! { i { class: "i-line-md:loading-twotone-loop p8 self-center bg-red-700" } },
+                _ => rsx! { i { class: "i-line-md:loading-twotone-loop p8 self-center bg-red-700" } },
             }
         }
     })

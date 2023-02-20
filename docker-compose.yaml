@@ -1,0 +1,8 @@
+services:
+  redis:
+    image: redis:alpine
+    # environment:
+    #   - REDIS_PASSWORD=${REDIS_PASSWORD}
+    #   - REDIS_DATABASE=${REDIS_DATABASE}
+    ports:
+      - "6379:6379"

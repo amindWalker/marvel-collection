@@ -9,3 +9,6 @@ pub use Home::*;
 
 mod Nav;
 pub use Nav::*;
+
+mod Footer;
+pub use Footer::*;

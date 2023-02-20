@@ -1,6 +1,15 @@
-use serde::{self, Deserialize, Serialize};
+use std::future::Future;
 
-#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+// External depencendies
+use serde::{self, Deserialize, Serialize};
+// Local depencendies
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize, Hash, Eq)]
+pub struct MarvelApiCache {
+    pub content: Option<MarvelRoot>,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize, Hash, Eq)]
 #[serde(rename_all = "camelCase")]
 pub struct MarvelRoot {
     pub code: i64,
@@ -14,7 +23,7 @@ pub struct MarvelRoot {
     pub data: Data,
 }
 
-#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize, Hash, Eq)]
 #[serde(rename_all = "camelCase")]
 pub struct Data {
     pub offset: i64,
@@ -24,7 +33,7 @@ pub struct Data {
     pub results: Vec<Result>,
 }
 
-#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize, Hash, Eq)]
 #[serde(rename_all = "camelCase")]
 pub struct Result {
     pub id: i64,
@@ -41,14 +50,14 @@ pub struct Result {
     pub urls: Vec<Url>,
 }
 
-#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize, Hash, Eq)]
 #[serde(rename_all = "camelCase")]
 pub struct Thumbnail {
     pub path: String,
     pub extension: String,
 }
 
-#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize, Hash, Eq)]
 #[serde(rename_all = "camelCase")]
 pub struct Comics {
     pub available: i64,
@@ -58,7 +67,7 @@ pub struct Comics {
     pub returned: i64,
 }
 
-#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize, Hash, Eq)]
 #[serde(rename_all = "camelCase")]
 pub struct Item {
     #[serde(rename = "resourceURI")]
@@ -66,7 +75,7 @@ pub struct Item {
     pub name: String,
 }
 
-#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize, Hash, Eq)]
 #[serde(rename_all = "camelCase")]
 pub struct Series {
     pub available: i64,
@@ -76,7 +85,7 @@ pub struct Series {
     pub returned: i64,
 }
 
-#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize, Hash, Eq)]
 #[serde(rename_all = "camelCase")]
 pub struct Item2 {
     #[serde(rename = "resourceURI")]
@@ -84,7 +93,7 @@ pub struct Item2 {
     pub name: String,
 }
 
-#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize, Hash, Eq)]
 #[serde(rename_all = "camelCase")]
 pub struct Stories {
     pub available: i64,
@@ -94,7 +103,7 @@ pub struct Stories {
     pub returned: i64,
 }
 
-#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize, Hash, Eq)]
 #[serde(rename_all = "camelCase")]
 pub struct Item3 {
     #[serde(rename = "resourceURI")]
@@ -104,7 +113,7 @@ pub struct Item3 {
     pub type_field: String,
 }
 
-#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize, Hash, Eq)]
 #[serde(rename_all = "camelCase")]
 pub struct Events {
     pub available: i64,
@@ -114,7 +123,7 @@ pub struct Events {
     pub returned: i64,
 }
 
-#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize, Hash, Eq)]
 #[serde(rename_all = "camelCase")]
 pub struct Item4 {
     #[serde(rename = "resourceURI")]
@@ -122,7 +131,7 @@ pub struct Item4 {
     pub name: String,
 }
 
-#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize, Hash, Eq)]
 #[serde(rename_all = "camelCase")]
 pub struct Url {
     #[serde(rename = "type")]

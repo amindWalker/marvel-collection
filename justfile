@@ -6,6 +6,8 @@ serve-css:
 serve-dioxus-web-release:
     cd {{justfile_directory()}}/app-ui; doppler run -- dioxus serve --release --platform web
 
+redis-cache:
+    echo HELLO_REDIS
 # watch sample:
 #     watchexec -e rs -r -w ./{{sample}} just run {{sample}}
 
