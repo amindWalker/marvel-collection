@@ -1,7 +1,6 @@
 // External depencendies
 use dioxus::prelude::*;
 use dioxus_router::Link;
-use dioxus_web::use_eval;
 // Local depencendies
 
 #[inline_props]

@@ -1,13 +1,6 @@
-use std::future::Future;
-
 // External depencendies
 use serde::{self, Deserialize, Serialize};
 // Local depencendies
-
-#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize, Hash, Eq)]
-pub struct MarvelApiCache {
-    pub content: Option<MarvelRoot>,
-}
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize, Hash, Eq)]
 #[serde(rename_all = "camelCase")]
@@ -30,12 +23,12 @@ pub struct Data {
     pub limit: i64,
     pub total: i64,
     pub count: i64,
-    pub results: Vec<Result>,
+    pub results: Vec<Character>,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize, Hash, Eq)]
 #[serde(rename_all = "camelCase")]
-pub struct Result {
+pub struct Character {
     pub id: i64,
     pub name: String,
     pub description: String,

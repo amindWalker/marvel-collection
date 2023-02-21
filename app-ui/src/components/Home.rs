@@ -1,14 +1,15 @@
 // External depencendies
 use dioxus::prelude::*;
+use fermi::use_read;
 // Local depencendies
-use crate::{components::Card, types::MarvelRoot};
+use crate::{components::Card, types::MarvelRoot, CHARACTERS, ROOT_API};
 
 use super::NavBar;
 
+#[inline_props]
 pub fn Home(cx: Scope) -> Element {
     let nav_bar = use_shared_state::<NavBar>(cx).unwrap();
-    let empty_data = MarvelRoot { ..Default::default() };
-    let api_data = use_shared_state::<MarvelRoot>(cx);
+    let characters = use_read(cx, ROOT_API);
 
     cx.render(
         rsx! {
@@ -16,9 +17,7 @@ pub fn Home(cx: Scope) -> Element {
             //> HOME
             class: "@apply base-container grid overflow-hidden",
             onclick: move |_| {
-                // nav_bar.write().0 = false;
-                // *api_data.unwrap().write() = comics.clone();
-                // log::info!("{:?}", dioxus_web::use_eval(cx)("console.log('API LOADED: ' )").get());
+                nav_bar.write().0 = false;
             },
             div {
                 class: "overflow-y-hidden",
@@ -46,8 +45,8 @@ pub fn Home(cx: Scope) -> Element {
                     //> CONTENT
                     article {
                         class: "@apply grid overflow-hidden",
-                        div { class: "absolute w110% justify-self-center h100vh z0 bg-gradient-to-tl from-black to-light-blue-900" }
-                        div { class: "absolute w110% justify-self-center h100vh z0 bg-gradient-to-t from-black to-sky-500 animate-pulse animate-duration-6000" }
+                        div { class: "absolute w110% justify-self-center h100vh z0 bg-gradient-to-tl from-black to-sky-900" }
+                        div { class: "absolute w110% justify-self-center h100vh z0 bg-gradient-to-t from-black via-sky-500 to-transparent animate-pulse animate-duration-5000" }
                                 div {
                                     class: " -rotate-2 p4 -ml8 self-center min-h-max grid grid-flow-col overflow-x-scroll overflow-y-hidden",
                                     header { class: "grid max-w-48",
@@ -58,9 +57,9 @@ pub fn Home(cx: Scope) -> Element {
                                             sup {class: "text-3xl", "YOUR HERO"}
                                         }
                                     }
-                                    match api_data {
+
+                                    match characters {
                                         Some(comics) => {
-                                            let comics = comics.read().clone();
                                             rsx! {
                                                 comics.data.results.iter().enumerate().map(|(index, hero)| {
                                                     let key = hero.id;
