@@ -8,8 +8,8 @@ pub struct NavBar(pub bool);
 
 pub fn Nav(cx: Scope) -> Element {
     let is_open = use_shared_state::<NavBar>(cx).unwrap();
-    let hamburger_container = if is_open.read().0 {"0"} else {"-24rem"};
-    let hamburger_menu = if is_open.read().0 {"none"} else {"block"};
+    let hamburger_container = if is_open.read().0 { "0" } else { "-24rem" };
+    let hamburger_menu = if is_open.read().0 { "none" } else { "block" };
     let offset_state = use_state(cx, || 0);
     let limit_state = use_state(cx, || false);
     let api_data = use_shared_state::<MarvelRoot>(cx);

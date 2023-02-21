@@ -2,17 +2,17 @@
 #![feature(async_closure)]
 #![feature(once_cell)]
 
-use api_service::{fetch_and_cache, FETCH_AND_CACHE, globa_state};
+use api_service::{fetch_and_cache, globa_state, FETCH_AND_CACHE};
 // External depencendies
-use dioxus::prelude::*;
-use dioxus_router::{Router, Route, Redirect};
 use components::{HeroProfile, Home, Nav, NavBar};
-use fermi::{Atom, use_init_atom_root, use_atom_state};
+use dioxus::prelude::*;
+use dioxus_router::{Redirect, Route, Router};
+use fermi::{use_atom_state, use_init_atom_root, Atom};
 // Local depencendies
-use types::{MarvelRoot, Character};
-mod types;
-mod components;
+use types::{Character, MarvelRoot};
 mod api_service;
+mod components;
+mod types;
 use crate::components::Footer;
 
 pub(crate) static ROOT_API: Atom<Option<MarvelRoot>> = |_| None;
@@ -47,8 +47,7 @@ fn App(cx: Scope) -> Element {
         }
     }
 
-    cx.render(
-        rsx! {
+    cx.render(rsx! {
         Router {
             Nav {}
             Route { to: "/home", Home {} }

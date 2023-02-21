@@ -53,23 +53,27 @@ pub(crate) fn fetch_and_cache(cx: Scope) -> Option<MarvelRoot> {
                 .unwrap()
                 .json::<MarvelRoot>()
                 .await
-        }
+        },
     );
 
     match fetch.value() {
         Some(data) => {
             globa_state(cx, data.as_ref().ok().cloned());
             data.as_ref().ok().cloned()
-        },
-        _ => None
+        }
+        _ => None,
     }
-
 }
 
 pub(crate) fn globa_state(cx: Scope, cache: Option<MarvelRoot>) -> usize {
     let Some(cached_data) = cache else { return 0 };
     use_set(cx, ROOT_API)(Some(cached_data.clone()));
-        cached_data.data.results.iter().map(|character| {
+    cached_data
+        .data
+        .results
+        .iter()
+        .map(|character| {
             use_set(cx, CHARACTERS)(Some(character.clone()));
-    }).count()
+        })
+        .count()
 }

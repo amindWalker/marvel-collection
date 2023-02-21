@@ -15,7 +15,7 @@ pub fn Card(
     backdrop_img: String,
 ) -> Element {
     let is_hover = use_state(cx, || false);
-    let opacity = if **is_hover {"1"} else {"0"};
+    let opacity = if **is_hover { "1" } else { "0" };
 
     cx.render(rsx!(
         ul {
