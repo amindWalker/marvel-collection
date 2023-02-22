@@ -1,6 +1,9 @@
 // External depencendies
 use dioxus::prelude::*;
 use dioxus_router::Link;
+use fermi::use_read;
+
+use crate::LOADING;
 // Local depencendies
 
 #[inline_props]
@@ -15,7 +18,9 @@ pub fn Card(
     backdrop_img: String,
 ) -> Element {
     let is_hover = use_state(cx, || false);
-    let opacity = if **is_hover { "1" } else { "0" };
+    let opacity = if **is_hover {"1"} else {"0"};
+    let is_loading = use_read(cx, LOADING);
+    let loading = if *is_loading {"i-line-md:loading-twotone-loop p8 self-center bg-red-700"} else {"bg-white z2 hovercard w64 h64 max-w-64 max-h-64"};
 
     cx.render(rsx!(
         ul {
@@ -41,15 +46,13 @@ pub fn Card(
                 Link {
                     to: link_to,
                     i {
-                        class: " i-mdi:chevron-up-circle z3 hover:bg-white fixed m2 ml4 p5 rounded-full border-none outline-none appearance-none",
+                        class: "border-none outline-none appearance-none i-mdi:chevron-up-circle z3 hover:invert fixed m2 ml4 p5 rounded-full",
                         style: "opacity: {opacity};"
                     },
                 }
                 img {
-                    id: "imgload",
                     tabindex: "0",
-                    class: if !true {"i-line-md:loading-twotone-loop p8 self-center bg-red-700"}
-                    else {"bg-white z2 hovercard w64 h64 max-w-64 max-h-64"},
+                    class: loading,
                     style: "animation-delay: {index}00ms;",
                     src: "{thumb}",
                     alt: "{hero_name}",

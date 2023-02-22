@@ -1,15 +1,14 @@
 // External depencendies
 use dioxus::prelude::*;
-use fermi::use_read;
+use fermi::{use_read, use_atom_state};
 // Local depencendies
-use crate::{components::Card, types::MarvelRoot, CHARACTERS, ROOT_API};
+use crate::{components::Card, NAV_BAR, ROOT_API};
 
 use super::NavBar;
 
-#[inline_props]
 pub fn Home(cx: Scope) -> Element {
-    let nav_bar = use_shared_state::<NavBar>(cx).unwrap();
-    let characters = use_read(cx, ROOT_API);
+    let root_api = use_read(cx, ROOT_API);
+    let set_navbar = use_atom_state(cx, NAV_BAR);
 
     cx.render(
         rsx! {
@@ -17,7 +16,7 @@ pub fn Home(cx: Scope) -> Element {
             //> HOME
             class: "@apply base-container grid overflow-hidden",
             onclick: move |_| {
-                nav_bar.write().0 = false;
+                set_navbar.set(NavBar(false));
             },
             div {
                 class: "overflow-y-hidden",
@@ -45,20 +44,20 @@ pub fn Home(cx: Scope) -> Element {
                     //> CONTENT
                     article {
                         class: "@apply grid overflow-hidden",
-                        div { class: "absolute w110% justify-self-center h100vh z0 bg-gradient-to-tl from-black to-sky-900" }
-                        div { class: "absolute w110% justify-self-center h100vh z0 bg-gradient-to-t from-black via-sky-500 to-transparent animate-pulse animate-duration-5000" }
+                        div { class: "absolute w110% justify-self-center h100vh z0 bg-gradient-to-tl from-black via-sky-600" }
+                        div { class: "absolute w110% justify-self-center h100vh z0 bg-gradient-to-t from-black via-sky-900 animate-pulse animate-duration-5000" }
                                 div {
                                     class: " -rotate-2 p4 -ml8 self-center min-h-max grid grid-flow-col overflow-x-scroll overflow-y-hidden",
                                     header { class: "grid max-w-48",
                                         h1 {
-                                            class: "text-center self-center -rotate-90 font-sans text-white text-6xl animate-pulse animate-ease-in-out",
+                                            class: "text-center py-16 self-center -rotate-90 font-sans text-white text-6xl animate-pulse animate-ease-in-out",
                                             "CHOOSE"
                                             br{}
                                             sup {class: "text-3xl", "YOUR HERO"}
                                         }
                                     }
 
-                                    match characters {
+                                    match root_api {
                                         Some(comics) => {
                                             rsx! {
                                                 comics.data.results.iter().enumerate().map(|(index, hero)| {
@@ -81,7 +80,11 @@ pub fn Home(cx: Scope) -> Element {
                                                 })
                                             }
                                         },
-                                        _ => rsx! { p { "Loading the database. If it takes too long, wait a few minutes and try again." } },
+                                        _ => rsx! {
+                                            p {
+                                                class: "i-line-md:loading-twotone-loop p8 self-center bg-red-700 rotate-2 text-white",
+                                            }
+                                        },
                                     }
                                 }
                         }

@@ -12,3 +12,6 @@ pub use Nav::*;
 
 mod Footer;
 pub use Footer::*;
+
+mod Header;
+pub use Header::*;
