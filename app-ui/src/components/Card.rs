@@ -18,9 +18,13 @@ pub fn Card(
     backdrop_img: String,
 ) -> Element {
     let is_hover = use_state(cx, || false);
-    let opacity = if **is_hover {"1"} else {"0"};
+    let opacity = if **is_hover { "1" } else { "0" };
     let is_loading = use_read(cx, LOADING);
-    let loading = if *is_loading {"i-line-md:loading-twotone-loop p8 self-center bg-red-700"} else {"bg-white z2 hovercard w64 h64 max-w-64 max-h-64"};
+    let loading = if *is_loading {
+        "i-line-md:loading-twotone-loop p8 self-center bg-red-700"
+    } else {
+        "bg-white z2 hovercard w64 h64 max-w-64 max-h-64"
+    };
 
     cx.render(rsx!(
         ul {

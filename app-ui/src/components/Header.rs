@@ -1,8 +1,8 @@
 // External dependencies
 use dioxus::prelude::*;
-use fermi::{use_set, use_read};
+use fermi::{use_read, use_set};
 
-use crate::{NAV_BAR, components::NavBar};
+use crate::{components::NavBar, NAV_BAR};
 // Local dependencies
 
 pub fn Header(cx: Scope) -> Element {

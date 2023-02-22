@@ -1,6 +1,6 @@
 // External depencendies
 use dioxus::prelude::*;
-use fermi::{use_read, use_atom_state};
+use fermi::{use_atom_state, use_read};
 // Local depencendies
 use crate::{components::Card, NAV_BAR, ROOT_API};
 

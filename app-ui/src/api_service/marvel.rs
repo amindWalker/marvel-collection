@@ -1,8 +1,8 @@
 // External depencendies
 use dioxus::prelude::*;
-use fermi::{use_read, use_set, use_atom_state};
+use fermi::{use_atom_state, use_read, use_set};
 // Local depencendies
-use crate::{types::MarvelRoot, ROOT_API, PAGE_LIMIT, LOADING};
+use crate::{types::MarvelRoot, LOADING, PAGE_LIMIT, ROOT_API};
 
 const MARVEL_BASE_URL: &str = env!("MARVEL_BASE_URL");
 const MARVEL_PBK: &str = env!("MARVEL_PBK");

@@ -1,8 +1,8 @@
 // External depencendies
 use dioxus::prelude::*;
-use fermi::{use_read, use_set, use_atom_state};
+use fermi::{use_atom_state, use_read, use_set};
 // Local depencendies
-use crate::{ROOT_API, NAV_BAR, PAGE_LIMIT};
+use crate::{NAV_BAR, PAGE_LIMIT, ROOT_API};
 
 #[derive(Clone)]
 pub struct NavBar(pub bool);
