@@ -1,13 +1,17 @@
 set dotenv-load
 
 serve-css:
-    cd {{justfile_directory()}}/app-ui; pnpm dev:css
+    cd {{justfile_directory()}}/app; pnpm dev:css
 
 serve-dioxus-web-release:
-    cd {{justfile_directory()}}/app-ui; doppler run -- dioxus serve --release --platform web
+    cd {{justfile_directory()}}/app; doppler run -- dioxus serve --release --platform web
 
-redis-cache:
-    echo HELLO_REDIS
+serve-axum-release:
+    cd {{justfile_directory()}}/app; doppler run -- cargo watch -x "run --release" -i Cargo.lock
+
+build-release:
+    cd {{justfile_directory()}}/app; cargo build --release
+
 # watch sample:
 #     watchexec -e rs -r -w ./{{sample}} just run {{sample}}
 

@@ -1,0 +1,29 @@
+[package]
+name = "marvel-collection"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+axum = { version = "0.6.7", features = ["ws"] }
+axum-extra = { version = "0.5.0", features = ["spa"] }
+dioxus-router = { version = "*", features = ["wasm-bindgen"] }
+dioxus = "0.3.2"
+dioxus-liveview = { version = "0.3.0", features = ["axum"] }
+# dioxus-web = "*"
+fermi = "*"
+tokio = { version = "1.22.0", default-features = false }
+serde = { version = "*", features = ["derive"] }
+# gloo = "*"
+# wasm-log = "0.3.1"
+# log = version = "*"
+
+[dev-dependencies]
+
+[profile.release]
+strip = true
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"

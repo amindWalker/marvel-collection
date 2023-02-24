@@ -4,7 +4,7 @@ use serde::{self, Deserialize, Serialize};
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize, Hash, Eq)]
 #[serde(rename_all = "camelCase")]
-pub struct MarvelRoot {
+pub struct CharactersRoot {
     pub code: i64,
     pub status: String,
     pub copyright: String,
@@ -13,12 +13,12 @@ pub struct MarvelRoot {
     #[serde(rename = "attributionHTML")]
     pub attribution_html: String,
     pub etag: String,
-    pub data: Data,
+    pub data: CharactersList,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize, Hash, Eq)]
 #[serde(rename_all = "camelCase")]
-pub struct Data {
+pub struct CharactersList {
     pub offset: i64,
     pub limit: i64,
     pub total: i64,
@@ -56,13 +56,13 @@ pub struct Comics {
     pub available: i64,
     #[serde(rename = "collectionURI")]
     pub collection_uri: String,
-    pub items: Vec<Item>,
+    pub items: Vec<ComicsItem>,
     pub returned: i64,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize, Hash, Eq)]
 #[serde(rename_all = "camelCase")]
-pub struct Item {
+pub struct ComicsItem {
     #[serde(rename = "resourceURI")]
     pub resource_uri: String,
     pub name: String,
@@ -74,13 +74,13 @@ pub struct Series {
     pub available: i64,
     #[serde(rename = "collectionURI")]
     pub collection_uri: String,
-    pub items: Vec<Item2>,
+    pub items: Vec<SeriesItem>,
     pub returned: i64,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize, Hash, Eq)]
 #[serde(rename_all = "camelCase")]
-pub struct Item2 {
+pub struct SeriesItem {
     #[serde(rename = "resourceURI")]
     pub resource_uri: String,
     pub name: String,
@@ -92,13 +92,13 @@ pub struct Stories {
     pub available: i64,
     #[serde(rename = "collectionURI")]
     pub collection_uri: String,
-    pub items: Vec<Item3>,
+    pub items: Vec<StoryItem>,
     pub returned: i64,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize, Hash, Eq)]
 #[serde(rename_all = "camelCase")]
-pub struct Item3 {
+pub struct StoryItem {
     #[serde(rename = "resourceURI")]
     pub resource_uri: String,
     pub name: String,
@@ -112,13 +112,13 @@ pub struct Events {
     pub available: i64,
     #[serde(rename = "collectionURI")]
     pub collection_uri: String,
-    pub items: Vec<Item4>,
+    pub items: Vec<EventItem>,
     pub returned: i64,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize, Hash, Eq)]
 #[serde(rename_all = "camelCase")]
-pub struct Item4 {
+pub struct EventItem {
     #[serde(rename = "resourceURI")]
     pub resource_uri: String,
     pub name: String,

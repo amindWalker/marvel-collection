@@ -1,10 +1,10 @@
 // // External depencendies
 // use dioxus::prelude::*;
 // // Local depencendies
-// use crate::types::MarvelRoot;
+// use crate::types::CharactersRoot;
 
 // pub fn HeroProfile(cx: Scope) -> Element {
-//     let api_data = use_shared_state::<MarvelRoot>(cx).unwrap();
+//     let api_data = use_shared_state::<CharactersRoot>(cx).unwrap();
 
 //     cx.render(rsx! {
 //         match api_data.read().clone() {

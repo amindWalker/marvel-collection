@@ -15,7 +15,6 @@ pub fn Nav(cx: Scope) -> Element {
     let root_api = use_read(cx, ROOT_API);
 
     let limit = *use_read(cx, PAGE_LIMIT);
-    log::info!("[COMPONENT] LIMIT: {limit}");
 
     cx.render(
         rsx! {
