@@ -6,20 +6,20 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-axum = { version = "0.6.7", features = ["ws"] }
-axum-extra = { version = "0.5.0", features = ["spa"] }
+# axum = { version = "*", features = ["ws"] }
+# axum-extra = { version = "*", features = ["spa"] }
+cached = { version = "*", features = ["wasm"] }
 dioxus-router = { version = "*", features = ["wasm-bindgen"] }
-dioxus = "0.3.2"
-dioxus-liveview = { version = "0.3.0", features = ["axum"] }
-# dioxus-web = "*"
+dioxus = "*"
+dioxus-liveview = { version = "*", features = ["axum"] }
+dioxus-web = "*"
 fermi = "*"
-tokio = { version = "1.22.0", default-features = false }
-serde = { version = "*", features = ["derive"] }
-# gloo = "*"
-# wasm-log = "0.3.1"
+gloo = "*"
 # log = version = "*"
-
-[dev-dependencies]
+serde = { version = "*", features = ["derive"] }
+# serde_json = "*"
+# tokio = "*"
+wasm-log = "*"
 
 [profile.release]
 strip = true
