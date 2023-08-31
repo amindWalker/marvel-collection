@@ -1,6 +1,6 @@
 # **[High-Performance Marvel API Client with Rust]()**
 > **Note**
-> * Consuming data from the Marvel API and getting the performance while being efficient with **minimal requests** can be a challenge. It can be slow and can return large amounts of data. To address these challenges, we can use caching to store data that we've already retrieved, which can reduce the number of requests we need to make to the API.
+> * Consuming data from the Marvel API and getting the performance while being efficient with **minimal requests** can be a challenge.
 > * In the first iteration of the app I've used [`React Native`](https://reactnative.dev/) and the performance wasn't what I expected. This time I'm going to build an application that aggressively caches data from the Marvel API using [`Rust`](https://rust-lang.org), a high-performance systems programming language. At the end of this experiment we gonna look at the benefits of caching, the challenges of working with the smallest possible requests, and how Rust can help us build a fast and efficient API client.
 
 ## **Caching is Important**
