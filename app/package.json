@@ -1,13 +1,32 @@
 {
-	"scripts": {
-		"dev:css": "unocss 'src/**/*.rs' --out-file=assets/uno.css --watch",
-		"build:css": "unocss 'src/**/*.rs' --out-file=assets/styles/uno.css"
-	},
-	"devDependencies": {
-		"unocss": "^0.49.4",
-		"@unocss/cli": "^0.49.4",
-		"@iconify/json": "^2.2.19",
-		"@unocss/preset-uno": "^0.49.4",
-		"@unocss/preset-web-fonts": "^0.49.4"
-	}
+  "name": "marvel-collection",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently 'vite --host' 'unocss src/**/*.tsx --out-file=css/uno.css --watch' ",
+    "build": "tsc && vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@iconify/json": "^2.2.142",
+    "@iconify/types": "^2.0.0",
+    "@types/react": "^18.2.37",
+    "@types/react-dom": "^18.2.15",
+    "@typescript-eslint/eslint-plugin": "^6.10.0",
+    "@typescript-eslint/parser": "^6.10.0",
+    "@vitejs/plugin-react": "^4.2.0",
+    "concurrently": "^8.2.2",
+    "eslint": "^8.53.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.4",
+    "typescript": "^5.2.2",
+    "unocss": "^0.57.4",
+    "vite": "^5.0.0"
+  }
 }

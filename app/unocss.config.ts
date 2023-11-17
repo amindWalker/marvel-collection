@@ -24,7 +24,7 @@ export default {
         presetUno(),
     ],
     shortcuts: {
-        "base-container": "@apply all:(transition-all duration-500 border-none outline-none ease-in-out animate-ease-in-out)",
-        "hovercard": "opacity-70 rounded-lg hover:(outline-red-600 opacity-100 brightness-125 -translate-y-2) focus:(outline-red-600 opacity-100 brightness-125 -translate-y-2)",
+        "base-container": "@apply",
+        "hovercard": "",
     },
 };
