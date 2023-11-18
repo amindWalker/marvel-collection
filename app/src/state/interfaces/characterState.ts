@@ -7,9 +7,8 @@ export enum Status {
     Failed = "failed",
 }
 
-export interface MarvelState {
+export interface CharacterState {
     characters: Character[];
-    etag: string | null;
     status: Status;
     error: string | null;
 }

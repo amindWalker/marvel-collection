@@ -1,18 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { charactersData, fetchCharacterData } from "../services/api";
+import { CharacterState, Status } from "./interfaces/characterState";
 import { Character } from "../interfaces/characters";
-import { fetchCharacterData } from "../services/api";
-import { MarvelState, Status } from "./interfaces/marvelState";
 
-const initialState: MarvelState = {
-    characters: [],
+const initialState: CharacterState = {
+    characters: charactersData ? charactersData.data.results : [],
     status: Status.Idle,
     error: null,
-    etag: null,
 };
-
-type CharacterPayloadAction = PayloadAction<
-    Character[] | { characters: Character[]; etag: string | null }
->;
 
 const characterSlice = createSlice({
     name: "marvel",
@@ -25,17 +20,9 @@ const characterSlice = createSlice({
             })
             .addCase(
                 fetchCharacterData.fulfilled,
-                (state, action: CharacterPayloadAction) => {
+                (state, action: PayloadAction<Character[]>) => {
                     state.status = Status.Succeeded;
-                    // TODO: remove this check after defining the proper data structure
-                    if (Array.isArray(action.payload)) {
-                        // If the payload is an array, set the characters directly
-                        state.characters = action.payload;
-                    } else {
-                        // If the payload is an object, extract characters and etag
-                        state.characters = action.payload.characters;
-                        state.etag = action.payload.etag;
-                    }
+                    state.characters = action.payload;
                 }
             )
             .addCase(fetchCharacterData.rejected, (state, action) => {

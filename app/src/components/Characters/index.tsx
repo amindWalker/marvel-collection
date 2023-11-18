@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CombinedState } from "../../state/combinedReducers";
 import { AppDispatch } from "../../state/store";
-import { Status } from "../../state/interfaces/marvelState";
+import { Status } from "../../state/interfaces/characterState";
 import { fetchCharacterData } from "../../services/api";
 
 const CharactersComponent = () => {
@@ -29,7 +29,6 @@ const CharactersComponent = () => {
 
     return (
         <div>
-            <h1>Marvel Characters</h1>
             <ul>
                 {characterData &&
                     characterData.map((character) => (
