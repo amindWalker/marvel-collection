@@ -1,12 +1,11 @@
-import { useState } from "react";
+import Home from "./components/Home";
 
 function App() {
-    const [count, setCount] = useState(0);
-
     return (
-        <button onClick={() => setCount((count) => count + 1)}>
-            count is {count}
-        </button>
+        <>
+            <h1>Marvel Collection</h1>
+            <Home />
+        </>
     );
 }
 
