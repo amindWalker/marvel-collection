@@ -1,11 +1,14 @@
-import Home from "./components/Home";
+import { Outlet } from "react-router-dom";
+import "./App.css";
+import { Home } from "./libs/lib-ui";
 
-function App() {
+export default function App() {
     return (
         <>
             <Home />
+            <div id="detail">
+                <Outlet />
+            </div>
         </>
     );
 }
-
-export default App;

@@ -1,24 +1,25 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { ApiRoot } from "../interfaces/characters";
-
-const MARVEL_BASE_URL: string = import.meta.env.VITE_MARVEL_BASE_URL;
-const MARVEL_PBK: string = import.meta.env.VITE_MARVEL_PBK;
-const MARVEL_API_HASH: string = import.meta.env.VITE_MARVEL_API_HASH;
+import { charactersEndpoint } from "../api";
+import { ApiRoot } from "../types";
 
 const savedCharactersData = localStorage.getItem("charactersData");
+
 export const charactersData: ApiRoot = savedCharactersData
     ? JSON.parse(savedCharactersData)
     : null;
 
-export const fetchCharacterData = createAsyncThunk(
+export const fetchCharacters = async (): Promise<ApiRoot> => {
+    const response = await fetch(charactersEndpoint);
+    const data: ApiRoot = await response.json();
+    return data;
+}
+
+export const fetchCharactersData = createAsyncThunk(
     "marvel/fetchCharacters",
     async () => {
         const etag = charactersData?.etag;
         const headers: HeadersInit = etag ? { "If-None-Match": etag } : {};
 
-        const limit = 100;
-        const offset = 0;
-        const charactersEndpoint = `${MARVEL_BASE_URL}/v1/public/characters?limit=${limit}&offset=${offset}&ts=9&apikey=${MARVEL_PBK}&hash=${MARVEL_API_HASH}`;
         try {
             const response = await fetch(charactersEndpoint, { headers });
 

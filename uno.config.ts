@@ -8,7 +8,7 @@ import {
 export default {
     presets: [
         presetIcons({
-            scale: 1.25,
+            scale: 1,
             extraProperties: {
                 display: "inline-block",
             },

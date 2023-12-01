@@ -4,7 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "concurrently 'vite --host' 'unocss src/**/*.tsx --out-file=css/uno.css --watch' ",
+    "dev": "vite",
+    "dev:unocss": "concurrently 'vite --host' 'unocss \"app/src/**/*.tsx\" -o app/src/App.css -w' ",
+    "build:css": "unocss \"src/**/*.tsx\" --out-file=css/uno.css",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
