@@ -1,28 +1,33 @@
-import { Link } from "react-router-dom";
-
-interface CardProps {
-    id?: number;
-    name?: string;
+export interface CardStyle {
+    container: string;
+    layout: string;
+    mainTitle: string;
+    subTitle?: string;
+    textContent?: string;
+    separator?: string;
 }
 
-export default function Card({ id, name }: CardProps) {
+export interface CardProps {
+    style: CardStyle;
+    mainTitle: string;
+    subTitle?: string;
+    children: React.ReactNode;
+}
+
+export default function Card({
+    style,
+    mainTitle,
+    children,
+    subTitle,
+}: CardProps) {
     return (
-        <>
-            <div className="card">
-                <figure>
-                    <img
-                        src="#"
-                        alt="Character Card"
-                    />
-                </figure>
-                <div>
-                    <h2 className="card-title">{name}</h2>
-                    <p>Comics available</p>
-                    <button className="more-btn">
-                        <Link to={`characters/${id}`}>More</Link>
-                    </button>
-                </div>
+        <div className={style.container}>
+            <div className={style.layout}>
+                <h2 className={style.mainTitle}>{mainTitle}</h2>
+                <h2 className={style.subTitle}>{subTitle}</h2>
+                <span className={style.separator} />
+                <p className={style.textContent}>{children}</p>
             </div>
-        </>
+        </div>
     );
 }

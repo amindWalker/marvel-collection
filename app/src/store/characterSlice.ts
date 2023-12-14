@@ -1,18 +1,13 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Character } from "../types";
+import { createSlice } from "@reduxjs/toolkit";
+import { Character, Status } from "../types";
+import { fetchCharactersData } from "../services/fetchOrigin";
 import { RootState } from ".";
-import { fetchCharactersData } from "../services/fetchAndCache";
-
-export enum Status {
-    Idle = "idle",
-    Loading = "loading",
-    Failed = "failed",
-}
+import { ErrorResponse } from "react-router-dom";
 
 export interface CharacterState {
     characters: Character[];
     status: Status;
-    error?: string | null;
+    error?: ErrorResponse | string;
 }
 
 const initialState: CharacterState = {
@@ -21,7 +16,7 @@ const initialState: CharacterState = {
 };
 
 const characterSlice = createSlice({
-    name: "marvel",
+    name: "marvel/Characters",
     initialState,
     reducers: {},
     extraReducers: (builder) => {
@@ -31,8 +26,8 @@ const characterSlice = createSlice({
             })
             .addCase(
                 fetchCharactersData.fulfilled,
-                (state, action: PayloadAction<Character[]>) => {
-                    state.characters = action.payload;
+                (state, action) => {
+                    state.characters = action.payload as Character[];
                     state.status = Status.Idle;
                 }
             )
@@ -43,7 +38,8 @@ const characterSlice = createSlice({
     },
 });
 
-export const selectCharacters = (state: RootState) => state.characterSlice;
-// TODO export const selectComics = (state: RootState) => state.comicSlice;
+export const selectCharacters = (state: RootState) => {
+    return state.characterSlice;
+};
 
 export default characterSlice.reducer;

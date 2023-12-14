@@ -1,14 +1,28 @@
-import { Outlet } from "react-router-dom";
 import "./App.css";
-import { Home } from "./libs/lib-ui";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { CharacterPage, ErrorPage, HomePage } from "./libs/lib-ui/pages";
+import { Modal } from "./libs/lib-ui/components";
 
-export default function App() {
-    return (
-        <>
-            <Home />
-            <div id="detail">
-                <Outlet />
-            </div>
-        </>
-    );
+const rootRouter = createBrowserRouter([
+    {
+        path: "/",
+        Component: HomePage,
+        errorElement: <ErrorPage />,
+        children: [
+            {
+                path: "characters/:charactersId",
+                element: (
+                    <Modal>
+                        <CharacterPage />
+                    </Modal>
+                ),
+            },
+        ],
+    },
+]);
+
+function App() {
+    return <RouterProvider router={rootRouter} />;
 }
+
+export default App;

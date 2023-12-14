@@ -1,9 +1,12 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import characterSlice from "./characterSlice";
+import comicSlice from "./comicSlice";
+import modalSlice from "./modalSlice";
 
 const rootReducer = combineReducers({
     characterSlice,
-    // TODO comicSlice
+    comicSlice,
+    modalSlice,
 });
 
 export const store = configureStore({

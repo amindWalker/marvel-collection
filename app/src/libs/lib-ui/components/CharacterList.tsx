@@ -1,40 +1,36 @@
-import { useDispatch, useSelector } from "react-redux";
-import { Status, selectCharacters } from "../../../store/characterSlice";
-import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Character } from "../../../types";
 import { AppDispatch } from "../../../store";
+import { useDispatch } from "react-redux";
 import { Card } from ".";
-import { fetchCharactersData } from "../../../services/fetchAndCache";
+import { modalOpen } from "../../../store/modalSlice";
 
-export default function CharacterList() {
+export default function CharacterList(character: Character) {
     const dispatch: AppDispatch = useDispatch();
-    const charactersData = useSelector(selectCharacters);
-    const characters = charactersData.characters;
-    const status = charactersData.status;
 
-    if (status === Status.Failed) {
-        // TODO: dedicated error page.
-        return <div>Error: Something went wrong</div>;
+    function handleMoreButton() {
+        dispatch(modalOpen(character.id));
     }
-    useEffect(() => {
-        dispatch(fetchCharactersData());
-    }, [dispatch]);
-    console.log(charactersData);
 
     return (
-        <>
-            {status === Status.Idle &&
-                characters.map((char) => {
-                    return (
-                        <ul key={char.id}>
-                            <Card
-                                key={char.id}
-                                id={char.id}
-                                name={char.name}
-                            />
-                            {char.name}
-                        </ul>
-                    );
-                })}
-        </>
+        <div key={character.id}>
+            <Card
+                style={{
+                    container: "@apply bg-red-500 rounded-xl m-4",
+                    layout: "grid grid-flow-col place-items-center",
+                    mainTitle: "text-2xl",
+                    textContent: "text-xl p-4",
+                    separator: "ring h-80%",
+                }}
+                mainTitle={character.name}
+            >
+                Comics avaiable: {character.comics?.available}
+                <Link
+                    to={`characters/${character.id}`}
+                    className="i-mdi:information-slab-circle text-4xl"
+                    onClick={handleMoreButton}
+                />
+            </Card>
+        </div>
     );
 }
