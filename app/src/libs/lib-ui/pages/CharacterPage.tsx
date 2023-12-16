@@ -5,78 +5,97 @@ import { selectComics } from "../../../store/comicSlice";
 import { useEffect, useState } from "react";
 import { fetchComicsByCharacterID } from "../../../services";
 import { selectCharacters } from "../../../store/characterSlice";
-import { Card } from "../components";
+import { CardStateless } from "../components";
+import Loading from "../components/Loadings";
+import CardStateful from "../components/Cards/CardStateful";
 import { Status } from "../../../types";
+import MarvelPlaceHolder from "../../../assets/MarvelUnavailable.svg";
 
 export default function CharacterPage() {
-    const handleImageLoad = (index: number) => {
-        const newImageLoaded = [...imageLoaded];
-        newImageLoaded[index] = true;
-        setImageLoaded(newImageLoaded);
-    };
-
     const dispatch: AppDispatch = useDispatch();
     const characterID = useSelector(selectModal)?.characterID;
     const character = useSelector(selectCharacters)?.characters.find(
         (char) => char.id === characterID
     );
     const { comics, status } = useSelector(selectComics);
-    const [imageLoaded, setImageLoaded] = useState(
-        Array(character?.comics?.available).fill(false)
-    );
+    const [loadedContent, setLoadedContent] = useState<number[]>([]);
+
+    const handleLoadedContent = async (index: number) => {
+        setLoadedContent((prevLoadedContent) => [...prevLoadedContent, index]);
+    };
 
     useEffect(() => {
         dispatch(fetchComicsByCharacterID(characterID?.toString()));
     }, [dispatch, characterID]);
 
     return (
-        <Card
-            style={{
-                container: "@apply bg-gray-400 rounded-xl m-4",
-                layout: "grid grid-flow-col place-items-center",
-                mainTitle: "text-2xl",
-                textContent: "text-xl p-4",
-                separator: "ring h-80%",
-            }}
-            mainTitle={character ? character?.name : ""}
+        <div
+            className={`w-80vw h-80vh grid gap-4 grid-flow-col overflow-x-scroll m-4`}
         >
-            <div className="grid grid-flow-col max-w-screen-md overflow-scroll">
-                {status === Status.Idle ? (
-                    comics.map((comic, index) => {
-                        return (
-                            <div key={comic.id}>
-                                <img
-                                    loading="lazy"
-                                    onLoad={() => handleImageLoad(index)}
-                                    className="max-h-64 max-w-64"
-                                    src={`${comic.thumbnail.path}.${comic.thumbnail.extension}`}
-                                    alt={comic.isbn}
-                                />
-                                <h1>
-                                    {imageLoaded[index] ? (
-                                        index
-                                    ) : (
-                                        <i className="i-line-md:loading-twotone-loop bg-red-700 p-8 m-4" />
-                                    )}
-                                </h1>
-                            </div>
-                        );
-                    })
-                ) : (
-                    <>
-                        {[1, 2, 3, 4].map((item) => {
-                            return (
-                                <div
-                                    key={item}
-                                    className="w-32 h-64 bg-gray-700 animate-pulse m-4 p-8 rounded-xl"
-                                >
-                                    <i className="i-line-md:loading-twotone-loop bg-red-700 p-8 m-4" />
-                                </div>
-                            );
-                        })}
-                    </>
-                )}
-            </div>
-        </Card>
+            {status === Status.Idle
+                ? comics?.map((comic, i) => {
+                      return (
+                          <div
+                              key={comic.id}
+                              className="w-64 h-96 bg-red-900 rounded-xl grid place-items-center"
+                          >
+                              {loadedContent.includes(i) ? (
+                                  <img
+                                      key={comic.id}
+                                      loading="lazy"
+                                      src={`${comic.thumbnail?.path}.${comic.thumbnail?.extension}`}
+                                      className={`min-w-48 min-h-64 max-w-64 max-h-96 rounded-xl`}
+                                      alt={comic.title}
+                                  />
+                              ) : (
+                                  <div className="w-64 h-96 bg-red-900 rounded-xl grid place-items-center">
+                                      <img
+                                          key={comic.id}
+                                          onLoad={() => handleLoadedContent(i)}
+                                          src={`${comic.thumbnail?.path}.${comic.thumbnail?.extension}`}
+                                          className="hidden"
+                                      />
+                                      <i
+                                          className={`z-1 i-line-md:loading-twotone-loop bg-red-700 p-10`}
+                                      />
+                                      <img
+                                          src={MarvelPlaceHolder}
+                                          alt="No image avaiable"
+                                          className="w-full h-full rounded-xl"
+                                      />
+                                  </div>
+                              )}
+                          </div>
+                      );
+                  })
+                : comics.map(() => {
+                      return (
+                          <div className="w-64 h-96 bg-red-900 rounded-xl grid place-items-center">
+                              <i
+                                  className={`z-1 i-line-md:loading-twotone-loop bg-red-700 p-10`}
+                              />
+                              <img
+                                  src={MarvelPlaceHolder}
+                                  alt="No image avaiable"
+                                  className="w-full h-full rounded-xl"
+                              />
+                          </div>
+                      );
+                  })}
+        </div>
     );
+}
+
+{
+    /* <Loading
+        key={comic.id}
+        container={true}
+        spinner={true}
+        style={{
+            container:
+                "w-48 h-64 bg-gray-900 m-4 p-8 rounded-xl",
+            spinner:
+                "i-line-md:loading-twotone-loop bg-red-700 p-4 m-4",
+        }}
+    /> */
 }

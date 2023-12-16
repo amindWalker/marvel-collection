@@ -9,5 +9,5 @@ export const charactersURL = `${MARVEL_BASE_URL}/v1/public/characters?limit=${li
 export const comicsURL = `${MARVEL_BASE_URL}/v1/public/comics?limit=${limit}&offset=${offset}&ts=9&apikey=${MARVEL_PBK}&hash=${MARVEL_API_HASH}`;
 
 export function comicsByCharacterIdURL(characterID?: string) {
-    return `${MARVEL_BASE_URL}/v1/public/characters/${characterID}/comics?ts=9&apikey=${MARVEL_PBK}&hash=${MARVEL_API_HASH}`;
+    return `${MARVEL_BASE_URL}/v1/public/characters/${characterID}/comics?limit=${limit}&ts=9&apikey=${MARVEL_PBK}&hash=${MARVEL_API_HASH}`;
 }

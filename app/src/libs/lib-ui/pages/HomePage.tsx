@@ -16,7 +16,7 @@ export default function Home() {
     }, [dispatch]);
 
     return (
-        <div>
+        <div className="base-all">
             <div className="h-80vh overflow-y-scroll">
                 <Outlet />
                 <h1>CHOOSE YOUR HERO</h1>
@@ -28,7 +28,7 @@ export default function Home() {
                                     id={char.id}
                                     name={char.name}
                                     comics={char.comics}
-                                    resourceURI={char.resourceURI}
+                                    thumbnail={char.thumbnail}
                                 />
                             </div>
                         );

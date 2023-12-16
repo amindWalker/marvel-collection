@@ -24,6 +24,6 @@ export default {
         presetUno(),
     ],
     shortcuts: {
-        "": ""
+        "base-all": "all:transition-all duration-500"
     },
 };

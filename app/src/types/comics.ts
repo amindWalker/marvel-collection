@@ -17,35 +17,35 @@ export interface ComicsRoot {
   }
 
   export interface Comic {
-    id: number;
-    digitalId: number;
+    id?: number;
+    digitalId?: number;
     title: string;
-    issueNumber: number;
-    variantDescription: string;
+    issueNumber?: number;
+    variantDescription?: string;
     description?: string;
-    modified: string;
-    isbn: string;
-    upc: string;
-    diamondCode: string;
-    ean: string;
-    issn: string;
-    format: string;
-    pageCount: number;
-    textObjects: ComicTextObject[];
-    resourceURI: string;
-    urls: ComicUrl[];
-    series: ComicResource;
-    variants: ComicResource[];
-    collections: ComicResource[];
-    collectedIssues: ComicResource[];
-    dates: ComicDate[];
-    prices: ComicPrice[];
-    thumbnail: ComicImage;
-    images: ComicImage[];
-    creators: ComicCollection;
-    characters: ComicCollection;
-    stories: ComicCollectionWithType;
-    events: ComicCollection;
+    modified?: string;
+    isbn?: string;
+    upc?: string;
+    diamondCode?: string;
+    ean?: string;
+    issn?: string;
+    format?: string;
+    pageCount?: number;
+    textObjects?: ComicTextObject[];
+    resourceURI?: string;
+    urls?: ComicUrl[];
+    series?: ComicResource;
+    variants?: ComicResource[];
+    collections?: ComicResource[];
+    collectedIssues?: ComicResource[];
+    dates?: ComicDate[];
+    prices?: ComicPrice[];
+    thumbnail?: ComicImage;
+    images?: ComicImage[];
+    creators?: ComicCollection;
+    characters?: ComicCollection;
+    stories?: ComicCollectionWithType;
+    events?: ComicCollection;
   }
 
   export interface ComicTextObject {

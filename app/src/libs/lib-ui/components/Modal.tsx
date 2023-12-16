@@ -7,7 +7,7 @@ export default function Modal({ children }: React.PropsWithChildren) {
     const dispatch: AppDispatch = useDispatch();
     const { isOpen } = useSelector(selectModal);
     const modalClass = isOpen
-        ? "@apply modal-open bg-gray-600 p-4 rounded-xl grid absolute top-50% left-50% -translate-x-50% -translate-y-50% z-2 max-w-screen max-h-screen overflow-y-scroll"
+        ? "modal-open bg-gray-600 p-4 rounded-xl grid absolute top-50% left-50% -translate-x-50% -translate-y-50% z-2 max-w-screen max-h-screen overflow-y-scroll"
         : "hidden";
 
     function handleModalClose() {
@@ -15,17 +15,19 @@ export default function Modal({ children }: React.PropsWithChildren) {
     }
 
     return (
-        <div>
+        <>
             {isOpen && (
-                <div>
-                    <div className="fixed backdrop-blur-sm backdrop-brightness-50 w-screen h-screen z-1" />
+                <div
+                    className="fixed backdrop-blur-sm backdrop-brightness-50 w-screen h-screen z-0"
+                    onClick={handleModalClose}
+                >
                     {createPortal(
-                        <div className={modalClass}>
+                        <div
+                            className={modalClass}
+                        >
                             <button
                                 type="button"
                                 onClick={handleModalClose}
-                                onBlurCapture={handleModalClose}
-                                aria-modal
                             >
                                 Close
                             </button>
@@ -35,6 +37,6 @@ export default function Modal({ children }: React.PropsWithChildren) {
                     )}
                 </div>
             )}
-        </div>
+        </>
     );
 }
