@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Comic } from "../../../types";
-import Loading from "./Loadings";
+import Loading from "./Loading";
 
 interface ComicsProps {
     length: number;

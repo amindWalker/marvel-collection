@@ -5,9 +5,7 @@ import { selectComics } from "../../../store/comicSlice";
 import { useEffect, useState } from "react";
 import { fetchComicsByCharacterID } from "../../../services";
 import { selectCharacters } from "../../../store/characterSlice";
-import { CardStateless } from "../components";
-import Loading from "../components/Loadings";
-import CardStateful from "../components/Cards/CardStateful";
+import Loading from "../components/Loading";
 import { Status } from "../../../types";
 import MarvelPlaceHolder from "../../../assets/MarvelUnavailable.svg";
 
@@ -32,29 +30,64 @@ export default function CharacterPage() {
         <div
             className={`w-80vw h-80vh grid gap-4 grid-flow-col overflow-x-scroll m-4`}
         >
-            {status === Status.Idle
-                ? comics?.map((comic, i) => {
-                      return (
-                          <div
-                              key={comic.id}
-                              className="w-64 h-96 bg-red-900 rounded-xl grid place-items-center"
-                          >
-                              {loadedContent.includes(i) ? (
-                                  <img
+            <div className="col-span-1">
+                <h1>{character?.name}</h1>
+                <div className="avatar m-4">
+                    <img
+                        className="<lg:w-24 lg:max-w-64 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2"
+                        src={`${character?.thumbnail?.path}.${character?.thumbnail?.extension}`}
+                        alt={character?.name}
+                    />
+                </div>
+            </div>
+            <div className="col-span-3">
+                <div className="container grid grid-flow-col">
+                    <h2>COMICS</h2>
+                    {status === Status.Idle
+                        ? comics?.map((comic, i) => {
+                              return (
+                                  <div
                                       key={comic.id}
-                                      loading="lazy"
-                                      src={`${comic.thumbnail?.path}.${comic.thumbnail?.extension}`}
-                                      className={`min-w-48 min-h-64 max-w-64 max-h-96 rounded-xl`}
-                                      alt={comic.title}
-                                  />
-                              ) : (
-                                  <div className="w-64 h-96 bg-red-900 rounded-xl grid place-items-center">
-                                      <img
-                                          key={comic.id}
-                                          onLoad={() => handleLoadedContent(i)}
-                                          src={`${comic.thumbnail?.path}.${comic.thumbnail?.extension}`}
-                                          className="hidden"
-                                      />
+                                      tabIndex={0}
+                                      className={`w-64 h-96 m-4 bg-red-900 rounded-xl grid place-items-center hover:-translate-y-2 hover:ring-8 ring-red-600 hover:drop-shadow-lg`}
+                                  >
+                                      {loadedContent.includes(i) ? (
+                                          <img
+                                              key={comic.id}
+                                              loading="lazy"
+                                              src={`${comic.thumbnail?.path}.${comic.thumbnail?.extension}`}
+                                              className={`min-w-48 min-h-64 max-w-64 max-h-96 rounded-xl animate-fade-in`}
+                                              alt={comic.title}
+                                          />
+                                      ) : (
+                                          <div className="w-64 h-96 bg-red-900 rounded-xl grid place-items-center">
+                                              <img
+                                                  key={comic.id}
+                                                  onLoad={() =>
+                                                      handleLoadedContent(i)
+                                                  }
+                                                  src={`${comic.thumbnail?.path}.${comic.thumbnail?.extension}`}
+                                                  className="hidden"
+                                              />
+                                              <i
+                                                  className={`z-1 i-line-md:loading-twotone-loop bg-red-700 p-10`}
+                                              />
+                                              <img
+                                                  src={MarvelPlaceHolder}
+                                                  alt="No image avaiable"
+                                                  className="w-full h-full rounded-xl"
+                                                  style={{
+                                                      animationDelay: `${i}00ms`,
+                                                  }}
+                                              />
+                                          </div>
+                                      )}
+                                  </div>
+                              );
+                          })
+                        : comics.map(() => {
+                              return (
+                                  <div className="w-64 h-96 m-4 bg-red-900 rounded-xl grid place-items-center">
                                       <i
                                           className={`z-1 i-line-md:loading-twotone-loop bg-red-700 p-10`}
                                       />
@@ -64,24 +97,10 @@ export default function CharacterPage() {
                                           className="w-full h-full rounded-xl"
                                       />
                                   </div>
-                              )}
-                          </div>
-                      );
-                  })
-                : comics.map(() => {
-                      return (
-                          <div className="w-64 h-96 bg-red-900 rounded-xl grid place-items-center">
-                              <i
-                                  className={`z-1 i-line-md:loading-twotone-loop bg-red-700 p-10`}
-                              />
-                              <img
-                                  src={MarvelPlaceHolder}
-                                  alt="No image avaiable"
-                                  className="w-full h-full rounded-xl"
-                              />
-                          </div>
-                      );
-                  })}
+                              );
+                          })}
+                </div>
+            </div>
         </div>
     );
 }

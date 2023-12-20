@@ -23,7 +23,9 @@ export default {
         }),
         presetUno(),
     ],
+    // @apply
     shortcuts: {
-        "base-all": "all:transition-all duration-500"
+        "base-all":
+            "all:(transition-all duration-300 animate-duration-300 animate-fade-in)",
     },
 };

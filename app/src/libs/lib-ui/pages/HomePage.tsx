@@ -17,7 +17,7 @@ export default function Home() {
 
     return (
         <div className="base-all">
-            <div className="h-80vh overflow-y-scroll">
+            <div className="overflow-y-scroll">
                 <Outlet />
                 <h1>CHOOSE YOUR HERO</h1>
                 {status == Status.Idle ? (

@@ -15,7 +15,7 @@ export interface CardProps {
     children: React.ReactNode;
 }
 
-export default function CardStateless({
+export default function Card({
     style,
     avatarImage,
     imgAlt,
@@ -25,8 +25,14 @@ export default function CardStateless({
     return (
         <div className={style?.container}>
             <div className={style?.layout}>
-                <img src={avatarImage} alt={imgAlt} className={style?.avatarImage} />
-                <h2 className={style?.subTitle}>{subTitle}</h2>
+                <figure className={style?.avatarImage}>
+                    <img
+                        src={avatarImage}
+                        alt={imgAlt}
+                        className={style?.avatarImage}
+                    />
+                </figure>
+                 <h2 className={style?.subTitle}>{subTitle}</h2>
                 <span className={style?.separator} />
                 <div className={style?.content}>{children}</div>
             </div>
