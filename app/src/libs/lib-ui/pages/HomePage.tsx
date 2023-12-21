@@ -6,6 +6,8 @@ import { Status } from "../../../types";
 import { Outlet } from "react-router-dom";
 import { fetchCharactersData } from "../../../services";
 import { CharacterList } from "../components";
+import Loading from "../components/Loading";
+import MarvelPlaceHolder from "../../../assets/MarvelUnavailable.svg";
 
 export default function Home() {
     const dispatch: AppDispatch = useDispatch();
@@ -25,22 +27,46 @@ export default function Home() {
                     <br />
                     <span className="text-2xl leading-20">YOUR HERO</span>
                 </h1>
-                {status == Status.Idle ? (
-                    characters.map((char) => {
-                        return (
-                            <div key={char.id}>
-                                <CharacterList
-                                    id={char.id}
-                                    name={char.name}
-                                    comics={char.comics}
-                                    thumbnail={char.thumbnail}
-                                />
-                            </div>
-                        );
-                    })
-                ) : (
-                    <i className="i-line-md:loading-twotone-loop bg-red-700 p-8 m-4" />
-                )}
+                {status === Status.Idle
+                    ? characters.map((char, i) => {
+                          return (
+                              <div
+                                  key={i}
+                                  className="animate-jack-in animate-duration-2000"
+                                  style={{ transitionDelay: `${i}000ms` }}
+                              >
+                                  <CharacterList
+                                      id={char.id}
+                                      name={char.name}
+                                      comics={char.comics}
+                                      thumbnail={char.thumbnail}
+                                  />
+                              </div>
+                          );
+                      })
+                    : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((_, i) => (
+                          <div
+                              key={i}
+                              className="animate-jack-in animate-duration-2000"
+                              style={{ transitionDelay: `${i}000ms` }}
+                          >
+                              <Loading
+                                  container
+                                  spinner
+                                  style={{
+                                      container:
+                                          "grid place-items-center w-64 h-64 mb-12 mx-1",
+                                      spinner:
+                                          "i-line-md:loading-twotone-loop bg-white p-10 absolute",
+                                  }}
+                              >
+                                  <img
+                                      src={MarvelPlaceHolder}
+                                      className="rounded"
+                                  />
+                              </Loading>
+                          </div>
+                      ))}
             </div>
         </div>
     );

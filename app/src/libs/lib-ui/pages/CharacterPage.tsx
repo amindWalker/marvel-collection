@@ -28,13 +28,13 @@ export default function CharacterPage() {
 
     return (
         <div
-            className={`w-80vw h-80vh grid gap-4 grid-flow-col overflow-x-scroll m-4`}
+            className={`w-80vw h-80vh grid gap-4 grid-flow-col <lg:grid-flow-row place-items-center m-4`}
         >
-            <div className="col-span-1">
-                <h1>{character?.name}</h1>
+            <div className="col-span-1 text-center text-xl <lg:text-lg">
+                <label>{character?.name}</label>
                 <div className="avatar m-4">
                     <img
-                        className="<lg:w-24 lg:max-w-64 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2"
+                        className="<lg:w-24 lg:max-w-48 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2"
                         src={`${character?.thumbnail?.path}.${character?.thumbnail?.extension}`}
                         alt={character?.name}
                     />
@@ -48,7 +48,7 @@ export default function CharacterPage() {
                               return (
                                   <div
                                       key={comic.id}
-                                      tabIndex={0}
+                                      tabIndex={100}
                                       className={`w-64 h-96 m-4 bg-red-900 rounded-xl grid place-items-center hover:-translate-y-2 hover:ring-8 ring-red-600 hover:drop-shadow-lg`}
                                   >
                                       {loadedContent.includes(i) ? (

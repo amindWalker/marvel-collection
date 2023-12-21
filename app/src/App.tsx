@@ -12,9 +12,11 @@ const rootRouter = createBrowserRouter([
             {
                 path: "characters/:charactersId",
                 element: (
-                    <Modal>
-                        <CharacterPage />
-                    </Modal>
+                    <div className="base-all">
+                        <Modal>
+                            <CharacterPage />
+                        </Modal>
+                    </div>
                 ),
             },
         ],

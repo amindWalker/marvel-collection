@@ -19,7 +19,6 @@ export default function CharacterList(character: Character) {
     return (
         // @apply
         <div
-            key={character.id}
             onPointerDown={() => setHasFocus(!hasFocus)}
             onPointerUp={() => setHasFocus(!hasFocus)}
             className={`max-w-max max-h-max text-center ${
@@ -32,12 +31,20 @@ export default function CharacterList(character: Character) {
             <span
                 onFocus={() => setHasFocus(!hasFocus)}
                 onBlur={() => setHasFocus(!hasFocus)}
+                className="grid"
             >
+                <Link
+                    to={`characters/${character.id}`}
+                    className={`i-mdi:chevron-up-circle text-5xl bg-black z-2 hover:invert fixed place-self-start m-4 mt-6 ${
+                        hasFocus ? "opacity-100 z-2" : "opacity-0"
+                    }`}
+                    onClick={handleMoreButton}
+                />
                 <Card
                     style={{
-                        container: "rounded overflow-hidden w-min h-min",
+                        container: "rounded overflow-hidden w-max h-max",
                         layout: "",
-                        children: "text-xl",
+                        children: "text-center",
                         profileImage: `card-profile-img ${
                             hasFocus
                                 ? "outline-red-700 brightness-125 -translate-y-2"
@@ -48,17 +55,14 @@ export default function CharacterList(character: Character) {
                     profileURL={avatarUrl}
                 >
                     <dialog
-                        className={`relative rounded m-0 ${
+                        className={`grid relative rounded -mt-6 bg-white ${
                             hasFocus ? "opacity-100" : "opacity-0"
                         }`}
                         open={true}
                     >
-                        Comics available: {character.comics?.available}
-                        <Link
-                            to={`characters/${character.id}`}
-                            className="i-mdi:information-slab-circle text-4xl"
-                            onClick={handleMoreButton}
-                        />
+                        <label className="text-black text-center w-58">
+                            Comics found: {character.comics?.available}
+                        </label>
                     </dialog>
                 </Card>
             </span>

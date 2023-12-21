@@ -27,6 +27,6 @@ export default {
     shortcuts: {
         "base-all":
             "all:(transition-all duration-300 animate-duration-300 ease-in-out animate-ease-in-out outline-none border-none appearance-none)",
-            "card-profile-img": "w-64 h-64 rounded hover:(outline-red-600 brightness-125 -translate-y-2) focus:(outline-red-600 brightness-125 -translate-y-2)"
+            "card-profile-img": "animate-fade-in w-64 h-64 rounded hover:(outline-red-600 brightness-125 -translate-y-2) focus:(outline-red-600 brightness-125 -translate-y-2)"
     },
 };

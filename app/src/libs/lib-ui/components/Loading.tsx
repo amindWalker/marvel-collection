@@ -18,18 +18,14 @@ const Loading: React.FC<LoadingProps> = ({
 }) => {
     return (
         <div className="grid place-items-center">
-            {container ? (
-                <div className={style?.container}>
-                    {spinner && (
-                        <>
-                            <i className={style?.spinner} />
-                            {children}
-                        </>
-                    )}
-                </div>
-            ) : (
-                spinner && <i className={style?.spinner} />
-            )}
+            {container
+                ? spinner && (
+                      <div className={style?.container}>
+                          <i className={style?.spinner} />
+                          {children}
+                      </div>
+                  )
+                : spinner && <i className={style?.spinner} />}
         </div>
     );
 };
