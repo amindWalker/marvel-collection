@@ -16,10 +16,15 @@ export default function Home() {
     }, [dispatch]);
 
     return (
-        <div className="base-all">
-            <div className="overflow-y-scroll">
+        <div className="base-all overflow-hidden grid grid-flow-col w-screen h-screen">
+            <nav className="bg-blue-600 w-64"></nav>
+            <div className="-rotate-z-1 grid grid-flow-col overflow-x-scroll self-center">
                 <Outlet />
-                <h1>CHOOSE YOUR HERO</h1>
+                <h1 className="text-center font-black self-center sticky -rotate-z-90 m-0 -mr-20 mb-10 animate-pulse leading-0">
+                    CHOOSE
+                    <br />
+                    <span className="text-2xl leading-20">YOUR HERO</span>
+                </h1>
                 {status == Status.Idle ? (
                     characters.map((char) => {
                         return (

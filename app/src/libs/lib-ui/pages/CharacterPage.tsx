@@ -41,7 +41,7 @@ export default function CharacterPage() {
                 </div>
             </div>
             <div className="col-span-3">
-                <div className="container grid grid-flow-col">
+                <div className="grid grid-flow-col">
                     <h2>COMICS</h2>
                     {status === Status.Idle
                         ? comics?.map((comic, i) => {
@@ -69,17 +69,23 @@ export default function CharacterPage() {
                                                   src={`${comic.thumbnail?.path}.${comic.thumbnail?.extension}`}
                                                   className="hidden"
                                               />
-                                              <i
-                                                  className={`z-1 i-line-md:loading-twotone-loop bg-red-700 p-10`}
-                                              />
-                                              <img
-                                                  src={MarvelPlaceHolder}
-                                                  alt="No image avaiable"
-                                                  className="w-full h-full rounded-xl"
+                                              <Loading
+                                                  container
+                                                  spinner
                                                   style={{
-                                                      animationDelay: `${i}00ms`,
+                                                      spinner:
+                                                          "i-line-md:loading-twotone-loop bg-red-700 p-10 self-center",
                                                   }}
-                                              />
+                                              >
+                                                  <img
+                                                      src={MarvelPlaceHolder}
+                                                      alt="No image avaiable"
+                                                      className="w-full h-full rounded-xl"
+                                                      style={{
+                                                          animationDelay: `${i}00ms`,
+                                                      }}
+                                                  />
+                                              </Loading>
                                           </div>
                                       )}
                                   </div>
@@ -88,14 +94,20 @@ export default function CharacterPage() {
                         : comics.map(() => {
                               return (
                                   <div className="w-64 h-96 m-4 bg-red-900 rounded-xl grid place-items-center">
-                                      <i
-                                          className={`z-1 i-line-md:loading-twotone-loop bg-red-700 p-10`}
-                                      />
-                                      <img
-                                          src={MarvelPlaceHolder}
-                                          alt="No image avaiable"
-                                          className="w-full h-full rounded-xl"
-                                      />
+                                      <Loading
+                                          container
+                                          spinner
+                                          style={{
+                                              spinner:
+                                                  "i-line-md:loading-twotone-loop bg-red-700 p-10 self-center",
+                                          }}
+                                      >
+                                          <img
+                                              src={MarvelPlaceHolder}
+                                              alt="No image avaiable"
+                                              className="w-full h-full rounded-xl"
+                                          />
+                                      </Loading>
                                   </div>
                               );
                           })}

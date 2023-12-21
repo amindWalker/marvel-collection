@@ -1,40 +1,42 @@
 export interface CardStyle {
     container?: string;
     layout?: string;
-    avatarImage?: string;
-    subTitle?: string;
-    content?: string;
-    separator?: string;
+    profileImage?: string;
+    figureContainer?: string;
+    legend?: string;
+    children?: string;
 }
 
 export interface CardProps {
     style?: CardStyle;
-    avatarImage?: string;
+    profileURL?: string;
     imgAlt?: string;
-    subTitle?: string;
+    legend?: string;
     children: React.ReactNode;
 }
 
 export default function Card({
     style,
-    avatarImage,
+    profileURL,
     imgAlt,
+    legend,
     children,
-    subTitle,
 }: CardProps) {
     return (
-        <div className={style?.container}>
+        <div
+            className={style?.container}
+            tabIndex={0}
+        >
             <div className={style?.layout}>
-                <figure className={style?.avatarImage}>
+                <figure className={style?.figureContainer}>
                     <img
-                        src={avatarImage}
+                        src={profileURL}
                         alt={imgAlt}
-                        className={style?.avatarImage}
+                        className={style?.profileImage}
                     />
+                    <legend className={style?.legend}>{legend}</legend>
                 </figure>
-                 <h2 className={style?.subTitle}>{subTitle}</h2>
-                <span className={style?.separator} />
-                <div className={style?.content}>{children}</div>
+                <div className={style?.children}>{children}</div>
             </div>
         </div>
     );

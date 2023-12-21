@@ -33,11 +33,12 @@ export default function Modal({ children }: React.PropsWithChildren) {
         <>
             {isOpen && (
                 <div
-                    className="fixed backdrop-blur backdrop-brightness-20 w-screen h-screen z-0  animate-fade-in animate-duration-300"
+                    className="fixed backdrop-blur w-screen h-screen animate-fade-in animate-duration-300"
                     onClick={handleModalClose}
                 >
                     {createPortal(
                         <dialog
+                            autoFocus
                             className={` ${modalClass}`}
                             onClick={(e) => e.stopPropagation()}
                             open={isOpen}
