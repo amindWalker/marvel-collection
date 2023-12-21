@@ -8,7 +8,7 @@ import {
 export default {
     presets: [
         presetIcons({
-            scale: 1.25,
+            scale: 1,
             extraProperties: {
                 display: "inline-block",
             },
@@ -18,13 +18,15 @@ export default {
             provider: "google",
             fonts: {
                 sans: ["Montserrat:900"],
-                mono: ["Saira Stencil One:400"]
+                mono: ["Saira Stencil One:400"],
             },
         }),
         presetUno(),
     ],
+    // @apply
     shortcuts: {
-        "base-container": "@apply all:(transition-all duration-500 border-none outline-none ease-in-out animate-ease-in-out)",
-        "hovercard": "opacity-70 rounded-lg hover:(outline-red-600 opacity-100 brightness-125 -translate-y-2) focus:(outline-red-600 opacity-100 brightness-125 -translate-y-2)",
+        "base-all":
+            "all:(transition-all duration-300 animate-duration-300 ease-in-out animate-ease-in-out outline-none border-none appearance-none)",
+            "card-profile-img": "animate-fade-in w-64 h-64 rounded hover:(outline-red-600 brightness-125 -translate-y-2) focus:(outline-red-600 brightness-125 -translate-y-2)"
     },
 };
