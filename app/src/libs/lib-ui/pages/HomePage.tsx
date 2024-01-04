@@ -8,7 +8,6 @@ import { fetchCharactersData } from "../../../services";
 import { CharacterList } from "../components";
 import Loading from "../components/Loading";
 import MarvelPlaceHolder from "../../../assets/MarvelUnavailable.svg";
-import { createPortal } from "react-dom";
 
 export default function Home() {
     const dispatch: AppDispatch = useDispatch();
@@ -20,37 +19,44 @@ export default function Home() {
     }, [dispatch]);
 
     return (
-        <div className="base-all overflow-hidden grid grid-flow-col w-screen h-screen">
-            <nav className="bg-red-600 w-screen-lg mix-blend-color-dodge bg-op-0">
+        <div className="base-all overflow-x-hidden grid grid-flow-col w-100vw h-100vh">
+            <nav className="bg-red-600 w-screen-lg">
+                <section className="bg-red-600 absolute inset-0 h-full w-screen-lg mix-blend-color-dodge z-2 pointer-events-none"></section>
                 <div className="outer-panel">
-                    <div className="inner-panel isolate">
-                        <button className="btn">BUTTON</button>
-                    </div>
-                </div>
-                {/* <section className="bg-red-900 absolute inset-0 mix-blend-color-dodge z-0"></section> */}
-                <div className="outer-panel mix-blend-normal">
-                    <div className="inner-panel grid place-items-start">
-                        <button className="btn isolate mix-blend-luminosity">
-                            BUTTON
-                        </button>
-                        <img
-                            className="max-w-64 isolate hover:brightness-125"
-                            src={`${characters[0]?.thumbnail?.path}.${characters[0]?.thumbnail?.extension}`}
-                        />
-                        <div className="outer-dialog z-1 justify-self-stretch">
-                            <button
-                                className="btn"
-                                onClick={() => setOpenDialog(true)}
-                            >
-                                BUTTON
-                            </button>
+                    <div className="relative inner-panel grid place-items-start ring-op-30 shadow-dark-1">
+                        <div className="z-2 overflow-hidden max-w-64 max-h-64 rounded-lg">
+                            <img
+                                className="max-w-64 hover:brightness-125 hover:scale-105"
+                                src={`${characters[0]?.thumbnail?.path}.${characters[0]?.thumbnail?.extension}`}
+                            />
+                        </div>
+                        <div className="inner-panel m-4 ring-op-40 mix-blend-overlay">
+                            <button className="btn">BUTTON</button>
+                            <span>This is a Marvel Character</span>
+                        </div>
+                        <div className="relative outer-dialog z-3 justify-self-stretch mix-blend-overlay">
+                            <h1>Dialog</h1>
+                            <div className="relative z-3 std-text grid grid-cols-5">
+                                <button
+                                    className="btn col-span-1 self-start"
+                                    onClick={() => setOpenDialog(true)}
+                                >
+                                    BUTTON
+                                </button>
+                                <div className="col-span-1">
+                                    This is a Marvel Character
+                                </div>
+                                <div className="w-full py8 rounded-lg bg-light text-center col-span-3 h-50 z-3 relative">
+                                    TEST
+                                </div>
+                            </div>
                             <dialog
                                 open={openDialog}
-                                className="backdrop-bg z-0"
+                                className="backdrop-bg z-3"
                             />
                             <dialog
                                 open={openDialog}
-                                className="inner-dialog relative z-2 w-full"
+                                className="inner-dialog relative z-4 w-full"
                             >
                                 <button
                                     className="btn"
@@ -61,29 +67,6 @@ export default function Home() {
                             </dialog>
                         </div>
                     </div>
-                </div>
-                <div className="outer-dialog">
-                    <button
-                        className="btn"
-                        onClick={() => setOpenDialog(true)}
-                    >
-                        BUTTON
-                    </button>
-                    <dialog
-                        open={openDialog}
-                        className="backdrop-bg z-0"
-                    />
-                    <dialog
-                        open={openDialog}
-                        className="inner-dialog relative w-full z-1"
-                    >
-                        <button
-                            className="btn"
-                            onClick={() => setOpenDialog(false)}
-                        >
-                            CLOSE
-                        </button>
-                    </dialog>
                 </div>
             </nav>
             <div className="-rotate-z-1 grid grid-flow-col overflow-x-scroll self-center">
