@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { Card } from ".";
 import { modalOpen } from "../../../store/modalSlice";
 import { useState } from "react";
+import MarvelPlaceholder from "../../../assets/MarvelUnavailable.svg";
 
 export default function CharacterList(character: Character) {
     const [hasFocus, setHasFocus] = useState(false);
@@ -16,6 +17,14 @@ export default function CharacterList(character: Character) {
 
     const avatarUrl =
         `${character.thumbnail?.path}.${character.thumbnail?.extension}`!;
+
+    const placeholderOrAvatar =
+        avatarUrl ===
+            "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg" ||
+        avatarUrl ===
+            "http://i.annihil.us/u/prod/marvel/i/mg/f/60/4c002e0305708.gif"
+            ? MarvelPlaceholder
+            : avatarUrl;
     return (
         // @apply
         <div
@@ -25,7 +34,7 @@ export default function CharacterList(character: Character) {
                 hasFocus ? "-translate-y-2" : "-translate-y-0"
             }`}
         >
-            <p className={hasFocus ? "opacity-100" : "opacity-0"}>
+            <p className={`h-1rem ${hasFocus ? "opacity-100" : "opacity-0"}`}>
                 {character.name}
             </p>
             <span
@@ -52,7 +61,7 @@ export default function CharacterList(character: Character) {
                         }`,
                         figureContainer: "leading-0 mx-1 my-6",
                     }}
-                    profileURL={avatarUrl}
+                    profileURL={placeholderOrAvatar}
                 >
                     <dialog
                         className={`grid relative rounded -mt-6 bg-white ${

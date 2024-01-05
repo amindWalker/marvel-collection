@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "unocss": "unocss \"app/src/**/*.tsx\" -o app/src/App.css -w",
     "dev:unocss": "concurrently 'vite --host' 'unocss \"app/src/**/*.tsx\" -o app/src/App.css -w' ",
     "build:css": "unocss \"src/**/*.tsx\" --out-file=css/uno.css",
     "build": "tsc && vite build",

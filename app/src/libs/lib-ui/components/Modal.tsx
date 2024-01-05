@@ -33,7 +33,7 @@ export default function Modal({ children }: React.PropsWithChildren) {
         <>
             {isOpen && (
                 <div
-                    className="fixed backdrop-blur w-screen h-screen animate-fade-in animate-duration-300"
+                    className="fixed z-4 backdrop-blur w-screen h-screen animate-fade-in animate-duration-300"
                     onClick={handleModalClose}
                 >
                     {createPortal(
