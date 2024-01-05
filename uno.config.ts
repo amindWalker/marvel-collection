@@ -30,11 +30,11 @@ export default {
         "base-all":
             "all:(transition-all duration-300 animate-duration-300 ease-in-out animate-ease-in-out outline-none border-none appearance-none font-sans)",
         "outer-panel":
-            "rounded-lg ring ring-white ring-opacity-25 p-8 m-4 shadow-2xl bg-white bg-opacity-25",
+            "rounded-lg ring ring-white ring-opacity-25 p-8 m-4 <lg:(p-4 m-2) shadow-2xl bg-white bg-opacity-25",
         "inner-panel":
             "rounded-lg ring ring-white ring-opacity-25 p-4 shadow-md bg-white bg-opacity-10",
         "outer-dialog":
-            "rounded-2xl ring ring-white ring-opacity-50 p-8 m-4 shadow-lg bg-white bg-opacity-50",
+            "rounded-2xl ring ring-white ring-opacity-50 p-8 m-4 <lg:(p-4 m-2) shadow-lg bg-white bg-opacity-50",
         "inner-dialog":
             "rounded-2xl ring ring-white ring-opacity-50 p-0 shadow-lg bg-white bg-opacity-10",
         btn: "rounded-lg p-4 m-4 bg-red-7 hover:(bg-white text-red-600)",

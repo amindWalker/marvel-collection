@@ -2,9 +2,17 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { CharactersRoot, ComicsRoot } from "../types";
 import { charactersURL, comicsByCharacterIdURL } from "../api";
 
+function setCharactersLength(fetched: CharactersRoot) {
+    localStorage.setItem("charactersLength", fetched.data.total.toString());
+}
+
+function setCharactersData(fetched: CharactersRoot) {
+    localStorage.setItem("charactersData", JSON.stringify(fetched));
+}
+
 export const fetchCharactersData = createAsyncThunk(
     "marvel/fetchCharactersData",
-    async () => {
+    async (offset: number) => {
         const charactersData = localStorage.getItem("charactersData");
         const parseCharacters =
             charactersData &&
@@ -13,26 +21,26 @@ export const fetchCharactersData = createAsyncThunk(
             console.info("Characters cache found! Checking updates...");
             const etag = parseCharacters.etag;
             const headers: HeadersInit = etag ? { "If-None-Match": etag } : {};
-            const response = await fetch(charactersURL, { headers });
+            const response = await fetch(charactersURL(offset), { headers });
             if (response.status === 304) {
                 // same etag as origin
                 console.info("Cache OK! Characters has not been modified.");
+                setCharactersLength(parseCharacters);
                 return parseCharacters.data.results;
             } else {
                 console.info("Cache outdated! Fetching updates...");
-                const response = await fetch(charactersURL);
+                const response = await fetch(charactersURL(offset));
                 const characters = (await response.json()) as CharactersRoot;
-                localStorage.setItem(
-                    "charactersData",
-                    JSON.stringify(characters)
-                );
+                setCharactersData(characters);
+                setCharactersLength(parseCharacters);
                 return characters.data.results;
             }
         } else {
             console.info("Characters cache not found! Fetching the origin...");
-            const response = await fetch(charactersURL);
+            const response = await fetch(charactersURL(offset));
             const characters = (await response.json()) as CharactersRoot;
-            localStorage.setItem("charactersData", JSON.stringify(characters));
+            setCharactersData(characters);
+            setCharactersLength(characters);
             return characters.data.results;
         }
     }
