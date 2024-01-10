@@ -5,9 +5,10 @@
 
 </div>
 
-> **Note**
-> * Utilize the Marvel API and achieve optimal performance with **minimal requests**.
-> * Built with [Bun](https://bun.sh/), [Vite](https://vitejs.dev/), [TypeScript](https://www.typescriptlang.org/), [UnoCSS/TailwindCSS](https://unocss.dev/) and [React](https://react.dev/)
+> [!IMPORTANT]
+> * There are two versions of this application:
+>   * The [Rust](https://github.com/amindWalker/marvel-collection/tree/dev/rust) branch have WASI and is writen in Full Stack Rust.
+>   * The [TypeScript](https://github.com/amindWalker/marvel-collection/tree/dev/typescript) branch have just the frontend.
 
 ## **Caching**
 
