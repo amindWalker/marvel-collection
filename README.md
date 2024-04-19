@@ -5,7 +5,7 @@
 
 </div>
 
-> **Note**
+> [!NOTE]
 > * Utilize the Marvel API and achieve optimal performance with **minimal requests**.
 > * Built with [Bun](https://bun.sh/), [Vite](https://vitejs.dev/), [TypeScript](https://www.typescriptlang.org/), [UnoCSS/TailwindCSS](https://unocss.dev/) and [React](https://react.dev/)
 
