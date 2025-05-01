@@ -1,7 +1,0 @@
-# name: marvel-collection-cache
-# run:
-#   image: redis:alpine
-#   ports:
-#     - 6379:6379
-#   command: ["docker-compose", "-f", "docker-compose.yaml", "up"]
-#   command: ["just", "redis-cache"]

@@ -1,47 +1,203 @@
-[application]
+# ==================================================================================
+# D I O X U S - C O N F I G  (2025 Edition)
+# ==================================================================================
+#
+# Complete configuration file for Dioxus projects with all available options,
+# descriptions, and possible values.
+#
+# 🔒 indicates mandatory sections (headers must exist, but keys within may be optional)
+# ==================================================================================
 
-# dioxus project name
+# ================================================
+# APPLICATION CONFIGURATION 🔒
+# ================================================
+[application]
+# The name of your Dioxus application
+# Used for identification and bundling purposes
 name = "marvel-collection"
 
-# default platfrom
-# you can also use `dioxus serve/build --platform XXX` to use other platform
-# value: web | desktop
+# The default platform to build/serve when no --platform flag is provided
+# Possible values: "web", "desktop"
+# Default: "web" (if not specified)
 default_platform = "web"
 
-# Web `build` & `serve` dist path
+# Output directory for built assets
+# For web: where production files are written
+# For desktop: where bundles are created
 out_dir = "dist"
 
-# resource (static) file folder
-asset_dir = "public"
+# Directory containing static assets that should be copied to out_dir
+# These files will be served alongside your application
+asset_dir = "assets"
 
-[web.app]
-
-# HTML title tag content
-title = "Marvel Collection"
-
-[web.watcher]
-
-index_on_404 = true
-
-watch_path = ["src", "unocss.config.ts"]
-
-# include `assets` in web platform
-[web.resource]
-
-# CSS style file
-style = ["uno.css", "tailwind.min.css"]
-
-# Javascript code file
-script = []
-
-[web.resource.dev]
-
-# Javascript code file
-# serve: [dev-server] only
-script = []
-
+# ================================================
+# PLUGINS CONFIGURATION
+# ================================================
 [application.plugins]
-
+# Enable/disable plugin system
+# Default: true
 available = true
 
+# List of required plugins by their package names
+# These plugins must be present in your Cargo.toml
+# Example: ["dioxus-hot-reload", "dioxus-router"]
 required = []
+
+# ================================================
+# WEB APP CONFIGURATION 🔒
+# ================================================
+[web.app]
+# The title that appears in browser tabs and bookmarks
+# Sets the HTML <title> tag content
+title = "Marvel Collection"
+
+# Base path for serving the application from a subdirectory
+# Example: "/my-app" makes the app available at domain.com/my-app/
+# Default: "/" (root)
+# base_path = "/"
+
+# ================================================
+# WEB WATCHER CONFIGURATION 🔒
+# ================================================
+[web.watcher]
+# Whether to serve index.html for 404 routes (required for client-side routing)
+# This enables proper handling of direct route navigation
+# Default: false
+index_on_404 = true
+
+# Whether to rebuild index.html when source files change
+# Default: true
+# reload_html = true
+
+# Files and directories to monitor for changes during development
+# Supports glob patterns for file matching
+# watch_path = ["src"]
+
+# Delay before rebuilding after file changes (milliseconds)
+# Default: 50
+# debounce = 50
+
+# ================================================
+# WEB RESOURCES CONFIGURATION 🔒
+# ================================================
+[web.resource]
+# CSS files to include in production builds
+# Can reference local files (relative to asset_dir) or CDN URLs
+# Example: ["uno.css", "https://cdn.example.com/style.css"]
+# style = []
+
+# JavaScript files to include in production builds
+# Loaded after your application code
+# Example: ["https://cdn.example.com/script.js"]
+# script = []
+
+# ================================================
+# WEB DEV RESOURCES CONFIGURATION 🔒
+# ================================================
+[web.resource.dev]
+# CSS files only included during development (dx serve)
+# Useful for development-specific styles or libraries
+# style = []
+
+# JavaScript files only included during development
+# Commonly used for live-reload scripts or dev tools
+# script = []
+
+# ================================================
+# WEB PROXY CONFIGURATION
+# ================================================
+# [[web.proxy]]
+# Configuration for API proxying during development
+# Multiple proxies can be defined (note double brackets)
+# backend = "http://localhost:8000/api/"
+
+# The backend URL to proxy requests to
+# Example: backend = "http://localhost:3000/api/"
+
+# ================================================
+# WEB HTTPS CONFIGURATION
+# ================================================
+# [[web.https]]
+# HTTPS configuration for development server
+
+# Enable HTTPS
+# Default: false
+# enabled = true
+
+# Use mkcert to generate local certificates
+# Requires mkcert installed
+# Default: true (if HTTPS enabled=true)
+# mkcert = true
+
+# Custom key path (if not using mkcert)
+# key_path = "/path/to/key.pem"
+
+# Custom cert path (if not using mkcert)
+# cert_path = "/path/to/cert.pem"
+
+# ================================================
+# WEB OPTIMIZATION
+# ================================================
+[web]
+# Pre-compress assets with brotli in release mode
+# Default: true
+pre_compress = true
+
+# WASM optimization level
+# Possible values: "z" (size), "s" (size), 1-4 (speed)
+# Default: "z"
+# wasm_opt.level = "z"
+
+# Keep debug symbols in release WASM
+# Default: false
+# wasm_opt.debug = false
+
+# ================================================
+# BUNDLE CONFIGURATION
+# ================================================
+[bundle]
+# Unique application identifier (reverse-DNS style)
+# Required for desktop builds
+# Example: "com.company.appname"
+# identifier = "com.example.marvel-collection"
+
+# Publisher name for desktop bundles
+# publisher = "Breno Rocha"
+
+# Application icons (multiple sizes/platforms)
+# Supported formats: .png, .ico, .icns
+# icon = ["icons/icon.png", "icons/icon.ico"]
+
+# Additional files to include in bundle
+# resources = ["data/config.json"]
+
+# Copyright information
+# copyright = "Copyright 2025"
+
+# Application category (desktop only)
+# Possible values: "Business", "Game", "Utility", etc.
+# category = "Utility"
+
+# Short description (appears in app stores/installers)
+# short_description = "Marvel comics collection"
+
+# Long description
+# long_description = "An application for browsing Marvel comics..."
+
+# External binaries to bundle (sidecar executables)
+# external_bin = ["binaries/my-tool"]
+
+# ================================================
+# PLATFORM-SPECIFIC BUNDLE CONFIG
+# ================================================
+
+# macOS specific bundle options
+# [bundle.macos]
+# Minimum macOS version (default: "10.13")
+# minimum_system_version = "10.15"
+
+# Windows specific bundle options
+# [bundle.windows]
+# WebView2 installation mode
+# Possible values: "EmbedBootstrapper", "DownloadBootstrapper", etc.
+# webview_install_mode = "DownloadBootstrapper"

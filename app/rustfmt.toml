@@ -1,0 +1,307 @@
+# =============================================================================
+# r u s t f m t - C O N F I G  (Rust 2024 Edition)
+# =============================================================================
+#
+# This rustfmt file includes all available options (2025)
+#
+# Uncomment and modify the options you want to customize.
+# =============================================================================
+
+# =================== #
+# BASIC CONFIGURATION #
+# =================== #
+
+# Enable verbose output during formatting
+# Default: false
+# Possible values: true, false
+verbose = false
+
+# Skip formatting all files recursively in subdirectories
+# Default: false
+# Possible values: true, false
+skip_children = false
+
+# Maximum line length (including comments)
+# Default: 100
+max_width = 120
+
+# Ideal line length for code (comments may still exceed this)
+# Default: 80
+ideal_width = 80
+
+# Number of spaces per tab
+# Default: 4
+tab_spaces = 4
+
+# Line ending style
+# Default: "Unix"
+# Possible values: "Windows", "Unix", "Native"
+newline_style = "Unix"
+
+# Rust edition to use for formatting
+# Default: "2024"
+# Possible values: "2015", "2018", "2021", "2024"
+edition = "2024"
+
+# ================================================
+# INDENTATION & WHITESPACE
+# ================================================
+
+# Indentation style
+# Default: "Block"
+# Possible values: "Block", "Visual"
+indent_style = "Block"
+
+# Wrap comments to fit maximum width
+# Default: false
+# Possible values: true, false
+wrap_comments = false
+
+# Maximum width for comments before wrapping
+# Default: 80
+comment_width = 80
+
+# Format code examples in doc comments
+# Default: false
+# Possible values: true, false
+format_code_in_doc_comments = false
+
+# Use small heuristics for improved formatting
+# Default: "Default"
+# Possible values: "Default", "Max", "Off"
+use_small_heuristics = "Default"
+
+# ================================================
+# FUNCTIONS
+# ================================================
+
+# Brace style for functions
+# Default: "SameLineWhere"
+# Possible values: "AlwaysNextLine", "PreferSameLine", "SameLineWhere"
+fn_brace_style = "SameLineWhere"
+
+# Put function arguments parenthesis on new line if too long
+# Default: true
+# Possible values: true, false
+fn_args_paren_newline = true
+
+# Function parameters layout
+# Default: "Tall"
+# Possible values: "Compressed", "Tall", "Vertical"
+fn_params_layout = "Tall"
+
+# Maximum width of function call arguments before vertical formatting
+# Default: 60
+fn_call_width = 60
+
+# Put single-expression functions on one line
+# Default: false
+# Possible values: true, false
+fn_single_line = false
+
+# Put empty functions on one line
+# Default: true
+# Possible values: true, false
+# fn_empty_single_line = true
+
+# Return type indentation in function declarations
+# Default: "WithArgs"
+# Possible values: "WithArgs", "WithWhereClause"
+fn_return_indent = "WithArgs"
+
+# ================================================
+# CONTROL FLOW
+# ================================================
+
+# Brace style for control flow constructs
+# Default: "AlwaysSameLine"
+# Possible values: "AlwaysSameLine", "ClosingNextLine", "AlwaysNextLine"
+control_brace_style = "AlwaysSameLine"
+
+# Where clause layout for single-line predicates
+# Default: false
+# Possible values: true, false
+where_single_line = false
+
+# Where predicate indentation style
+# Default: "Normal"
+# Possible values: "Normal", "Derive"
+where_pred_indent = "Normal"
+
+# Where clause layout
+# Default: "Tall"
+# Possible values: "Compressed", "Tall", "Vertical"
+where_layout = "Tall"
+
+# ================================================
+# ITEMS (STRUCTS, ENUMS, IMPLS)
+# ================================================
+
+# Brace style for items
+# Default: "SameLineWhere"
+# Possible values: "AlwaysNextLine", "PreferSameLine", "SameLineWhere"
+item_brace_style = "SameLineWhere"
+
+# Put empty impl blocks on one line
+# Default: true
+# Possible values: true, false
+impl_empty_single_line = true
+
+# Put empty structs on one line
+# Default: true
+# Possible values: true, false
+struct_empty_single_line = true
+
+# Put empty enums on one line
+# Default: true
+# Possible values: true, false
+enum_empty_single_line = true
+
+# Maximum width of struct literal before vertical formatting
+# Default: 16
+struct_lit_width = 16
+
+# Maximum width of struct variant before vertical formatting
+# Default: 35
+struct_variant_width = 35
+
+# ================================================
+# MATCH EXPRESSIONS
+# ================================================
+
+# Format match arm blocks
+# Default: true
+# Possible values: true, false
+match_arm_blocks = true
+
+# Add trailing comma after last match arm
+# Default: false
+# Possible values: true, false
+match_block_trailing_comma = false
+
+# Leading pipes in match arms
+# Default: "Never"
+# Possible values: "Always", "Never", "Preserve"
+match_arm_leading_pipes = "Never"
+
+# Trailing comma after wildcard pattern
+# Default: true
+# Possible values: true, false
+match_wildcard_trailing_comma = true
+
+# ================================================
+# IMPORTS
+# ================================================
+
+# Imports layout style
+# Default: "Mixed"
+# Possible values: "Mixed", "Horizontal", "Vertical"
+imports_layout = "Mixed"
+
+# Imports indentation style
+# Default: "Block"
+# Possible values: "Block", "Visual"
+imports_indent = "Block"
+
+# Group imports style
+# Default: "Preserve"
+# Possible values: "Preserve", "StdExternalCrate", "One"
+group_imports = "Preserve"
+
+# Reorder import statements alphabetically
+# Default: true
+# Possible values: true, false
+reorder_imports = true
+
+# Reorder module items alphabetically
+# Default: true
+# Possible values: true, false
+reorder_modules = true
+
+# Remove unnecessary nested parentheses
+# Default: true
+# Possible values: true, false
+remove_nested_parens = true
+
+# Merge sibling imports
+# Default value: Preserve
+# Possible values: Preserve, Crate, Module, Item, One
+imports_granularity = "Preserve"
+
+# ================================================
+# EXPRESSIONS
+# ================================================
+
+# Binary operator separator position
+# Default: "Front"
+# Possible values: "Front", "Back"
+binop_separator = "Front"
+
+# Overflow delimited expressions
+# Default: false
+# Possible values: true, false
+overflow_delimited_expr = false
+
+# Single-line struct literals
+# Default: true
+# Possible values: true, false
+struct_lit_single_line = true
+
+# Trailing comma style
+# Default: "Vertical"
+# Possible values: "Always", "Never", "Vertical"
+trailing_comma = "Vertical"
+
+# Add trailing semicolon
+# Default: true
+# Possible values: true, false
+trailing_semicolon = true
+
+# Space after colon in type annotations
+# Default: true
+# Possible values: true, false
+space_after_colon = true
+
+# Space before colon in type annotations
+# Default: false
+# Possible values: true, false
+space_before_colon = false
+
+# Spaces around range operators (.., ..=)
+# Default: false
+# Possible values: true, false
+spaces_around_ranges = false
+
+# ================================================
+# ADVANCED CONFIGURATION
+# ================================================
+
+# Disable all formatting (useful for debugging)
+# Default: false
+# Possible values: true, false
+disable_all_formatting = false
+
+# Error on line overflow
+# Default: false
+# Possible values: true, false
+error_on_line_overflow = false
+
+# Error on unformatted code
+# Default: false
+# Possible values: true, false
+error_on_unformatted = false
+
+# Require specific rustfmt version
+# Default value: CARGO_PKG_VERSION
+# Possible values: semver compliant values (i.e. 1.6.0), such as defined on semver.org.
+required_version = "CARGO_PKG_VERSION"
+
+# Use hard tabs instead of spaces
+# Default: false
+# Possible values: true, false
+hard_tabs = false
+
+# Configuration version
+# Default: "Two"
+# Possible values: "One", "Two"
+version = "Two"

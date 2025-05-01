@@ -1,47 +1,75 @@
 #![allow(non_snake_case)]
-#![feature(is_some_and)]
+use dioxus::{document::Stylesheet, prelude::*};
+use components::{Footer, Header, Home, Nav, HeroProfile};
 
-// External depencendies
-use components::{Home, Nav, NavBar};
-use dioxus::prelude::*;
-use dioxus_router::{Redirect, Route, Router};
-use fermi::{use_init_atom_root, Atom};
-// Local depencendies
-use types::CharactersRoot;
 mod api_service;
 mod components;
 mod types;
-use crate::{
-    api_service::fetch_and_cache,
-    components::{Footer, Header},
-};
 
-pub(crate) static ROOT_API: Atom<Option<CharactersRoot>> = |_| None;
-pub(crate) static NAV_BAR: Atom<NavBar> = |_| NavBar(false);
-pub(crate) static PAGE_LIMIT: Atom<usize> = |_| 100;
-pub(crate) static LOADING: Atom<bool> = |_| true;
+#[derive(Routable, Clone, PartialEq)]
+enum Route {
+    #[layout(MainLayout)]
+        #[route("/home")]
+        // #[redirect("/", "/home")]
+        // #[redirect("", "/home")]
+        Home { nav_open: Signal<bool> },
 
-const MARVEL_BASE_URL: &str = env!("MARVEL_BASE_URL");
-const MARVEL_PBK: &str = env!("MARVEL_PBK");
-const MARVEL_API_HASH: &str = env!("MARVEL_API_HASH");
+        #[nest("/hero")]
+            #[route("/:id")]
+            HeroProfile { id: usize },
 
-fn main() {
-    wasm_log::init(wasm_log::Config::default());
-    dioxus_web::launch(App)
+    #[end_layout]
+    #[route("/:..route")]
+    PageNotFound {
+        route: Vec<String>,
+    },
 }
 
-fn App(cx: Scope) -> Element {
-    use_init_atom_root(cx);
+#[component]
+fn MainLayout() -> Element {
+    let nav_open = use_signal(|| false);
+    let limit = use_signal(|| 100);
 
-    println!("{:?}", fetch_and_cache(cx));
-    cx.render(rsx! {
-        Router {
-            Header {}
-            Nav {}
-            Route { to: "/home", Home {} }
-            // Route { to: "/hero", HeroProfile {} }
-            Redirect { from: "", to: "/home" }
-            Footer {}
+    rsx! {
+        Header { nav_open }
+        Nav { nav_open, limit }
+        Outlet::<Route> {}
+        Footer {}
+    }
+}
+
+#[component]
+fn PageNotFound(route: Vec<String>) -> Element {
+    let nav_open = use_context::<Signal<bool>>();
+
+    rsx! {
+        div { class: "error-page",
+            h1 { "404 - Page Not Found" }
+            p { r#"Unknown route: {route.join("/")}"# }
+            Link { to: Route::Home { nav_open }, "Return Home" }
         }
-    })
+    }
+}
+
+
+#[component]
+fn App() -> Element {
+    let nav_open = use_signal(|| false);
+    let limit = use_signal(|| 100);
+    let characters_data = use_signal(|| 1);
+
+    provide_root_context(nav_open);
+    provide_root_context(limit);
+    provide_context(Signal::new(characters_data));
+
+    rsx! {
+        Stylesheet { href: asset!("assets/uno.css") }
+        Stylesheet { href: asset!("assets/tailwind.min.css") }
+
+        Home { nav_open }
+    }
+}
+
+fn main() {
+    launch(App);
 }

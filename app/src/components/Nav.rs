@@ -1,101 +1,73 @@
-// External depencendies
 use dioxus::prelude::*;
-use fermi::{use_atom_state, use_read, use_set};
-// Local depencendies
-use crate::{NAV_BAR, PAGE_LIMIT, ROOT_API};
+use crate::{api_service::fetch_marvel_data, types::CharactersRoot};
 
-#[derive(Clone)]
-pub struct NavBar(pub bool);
+#[component]
+pub fn Nav(nav_open: Signal<bool>, limit: Signal<usize>) -> Element {
+    let a = nav_open.cloned();
+    let root_api = use_resource(move || fetch_marvel_data(limit.cloned()));
+    let offset_input = use_signal(String::new);
 
-pub fn Nav(cx: Scope) -> Element {
-    let (is_open, set_is_open) = (use_read(cx, NAV_BAR), use_set(cx, NAV_BAR));
-    let (page_limit, set_page_limit) = (use_read(cx, PAGE_LIMIT), use_atom_state(cx, PAGE_LIMIT));
-    let hamburger_container = if is_open.0 { "0" } else { "-24rem" };
-    let is_limit_checked = use_state(cx, || false);
-    let root_api = use_read(cx, ROOT_API);
-
-    let limit = *use_read(cx, PAGE_LIMIT);
-
-    cx.render(
-        rsx! {
-        //> NAV
+    rsx! {
         nav {
-            class: "@apply transition-all duration-500 font-mono p4 z2 absolute grid gap-y-16 h-full auto-rows-min max-w-min place-items-center backdrop-filter backdrop-blur-xl backdrop-saturate-50 shadow-2xl shadow-black rounded-tr-xl text-white text-opacity-70",
-            style: "transform: translateX({hamburger_container});",
-            match root_api {
-                Some(comic) => {
-                    rsx! {
-                        i {
-                            class: "@apply i-line-md:close justify-self-end self-start p4 cursor-pointer ",
-                            onclick: move |_| {
-                                let state = !is_open.0;
-                                set_is_open(NavBar(state));
-                            },
-                        }
-                        //> MENU
-                        menu {
-                            class: "@apply grid h-full text-lg text-center",
-                            div {
-                                class: "text-center grid gap-y-8 place-items-center rounded-lg",
-                                h2 {
-                                    class: "text-center self-center font-bold text-6xl leading-6 rounded-lg",
-                                    "{comic.data.total}",
-                                    p {class: "text-4xl text-red-700 text-shadow-lg", "comics" }
-                                }
-                                div {
-                                    class: "base-container grid grid-cols-2 p4 pt10 gap-x-8 place-items-center",
-                                    p {
-                                        class: "absolute self-start mt4 text-center font-bold",
-                                        "Range limits"
-                                    }
+            class: "transition-all duration-500 font-mono p-4 z-2 absolute grid gap-y-16 h-full auto-rows-min max-w-min place-items-center backdrop-blur-xl shadow-2xl shadow-black rounded-tr-xl text-white/70",
+            if *nav_open.read() { "translate-x-0" } else { "-translate-x-96" },
 
-                                    [1,2,3,4,5].iter().enumerate().map(|(index, item)| {
-                                        rsx! {
-                                            input {
-                                                "key": "{index + item}",
-                                                class: "@apply cursor-pointer appearance-none p5 i-mdi:toggle-switch-off checked:i-mdi:toggle-switch invert checked:invert-0 checked:bg-white",
-                                                r#type: "radio",
-                                                name: "pagination",
-                                                value: "{item:?}",
-                                                checked: if *item == 5 {"true"} else {"false"}, // Setting 100 as default
-                                                onchange: move |event| {
-                                                    let state = event.value == "{item}";
-                                                    is_limit_checked.set(state);
-                                                    let limit = *item * 20;
-                                                    set_page_limit.set(limit);
-                                                },
-                                            }
-                                            p { class: "font-bold", "{item * 20}" }
+            match &*root_api.read() {
+                Some(Ok(comic)) => rsx! {
+                    i {
+                        class: "i-line-md:close justify-self-end self-start p-4 cursor-pointer",
+                        onclick: move |_| nav_open.toggle(),
+                    }
+                    menu {
+                        class: "grid h-full text-lg text-center",
+                        div {
+                            class: "text-center grid gap-y-8 place-items-center rounded-lg",
+                            h2 {
+                                class: "text-6xl leading-6",
+                                "{comic.data.total}",
+                                p { class: "text-4xl text-red-700", "comics" }
+                            }
+                            div {
+                                class: "base-container grid grid-cols-2 p-4 pt-10 gap-x-8",
+                                p { class: "font-bold mt-4", "Range limits" }
+
+                                {(1..6).map(|item| rsx! {
+                                        input {
+                                            class: "cursor-pointer p-5 i-mdi:toggle-switch-off checked:i-mdi:toggle-switch invert",
+                                            r#type: "radio",
+                                            name: "pagination",
+                                            value: "{item}",
+                                            checked: item == 5,
+                                            oninput: move |e| limit.set(e.value().parse().unwrap_or(100)),
                                         }
-                                    })
+                                        p { class: "font-bold", "{item * 20}" }
+                                })}
+                            }
+                            div {
+                                class: "grid",
+                                input {
+                                    class: "p-2 bg-black/10 hover:bg-black/20 rounded-t-lg",
+                                    r#type: "search",
+                                    placeholder: "Offset...",
+                                    value: "{offset_input}",
+                                    // oninput: move |e| offset_input.cloned(),
                                 }
-                                p {
-                                    class: "self-end text-center font-bold",
-                                    "Offset comics"
+                                button {
+                                    class: "bg-red-700/80 hover:bg-red-700 p-2 rounded-b-lg",
+                                    onclick: move |_| {
+                                        if let Ok(num) = offset_input.cloned().parse::<usize>() {
+                                            limit.set(num);
+                                        }
+                                    },
+                                    "Go"
                                 }
-                                div {
-                                    class: "grid",
-                                    input {
-                                        class: "transition-all duration-500 p2 bg-black bg-opacity-10 hover:bg-opacity-20 rounded-t-lg text-center placeholder-light-500",
-                                        r#type: "search",
-                                        prevent_default: "oninput",
-                                        onchange: move |event| {
-                                            let state = &event.value;
-                                            // TODO: offset_limit
-                                        },
-                                    }
-                                    button {
-                                        class: "transition-all duration-500 bg-red-700 bg-opacity-80 hover:bg-opacity-100 p2 rounded-b-lg focus:brightness-125",
-                                        "Go"
-                                    }
-                                }
-                                p {class: "self-start", "From 0 - {comic.data.total}"},
                             }
                         }
                     }
                 },
-                _ => rsx! { i { class: "i-line-md:loading-twotone-loop p8 self-center bg-red-700" } },
+                Some(Err(e)) => rsx! { p { "Error: {e}" } },
+                None => rsx! { i { class: "i-line-md:loading-twotone-loop p-8" } }
             }
         }
-    })
+    }
 }

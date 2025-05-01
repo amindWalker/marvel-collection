@@ -1,96 +1,77 @@
-// External depencendies
+use crate::{api_service::fetch_marvel_data, components::Card};
 use dioxus::prelude::*;
-use fermi::{use_atom_state, use_read};
-// Local depencendies
-use crate::{components::Card, NAV_BAR, ROOT_API};
 
-use super::NavBar;
+#[component]
+pub fn Home(nav_open: Signal<bool>) -> Element {
+    let root_api = use_resource(move || fetch_marvel_data(100));
+    let limit = use_signal(|| 100);
 
-pub fn Home(cx: Scope) -> Element {
-    let root_api = use_read(cx, ROOT_API);
-    let set_navbar = use_atom_state(cx, NAV_BAR);
-
-    cx.render(
-        rsx! {
+    rsx! {
         div {
-            //> HOME
-            class: "@apply base-container grid overflow-hidden",
-            onclick: move |_| {
-                set_navbar.set(NavBar(false));
-            },
+            class: "base-container grid overflow-hidden",
+            onclick: move |_| nav_open.set(false),
             div {
                 class: "overflow-y-hidden",
                 section {
-                    class: "grid grid-flow-col h100vh",
-                    //> SEARCH
+                    class: "grid grid-flow-col h-screen",
                     div {
                         class: "absolute justify-self-center max-h-xs z1",
                         div {
-                            class: "grid mt24",
+                            class: "grid mt-24",
                             input {
-                                class: "ml12 self-center justify-self-center p2 rounded-xl bg-black text-white text-center bg-opacity-20 hover:bg-opacity-30 focus:ring placeholder-black placeholder-opacity-40",
+                                class: "ml-12 self-center justify-self-center p-2 rounded-xl bg-black/20 text-white text-center placeholder-black/40 focus:ring",
                                 r#type: "search",
                                 placeholder: "search",
-                                prevent_default: "oninput",
-                                // onchange: move |event| {
-                                    // log::info!("{}", event.value);
-                                // }
+                                onclick: move |e| e.prevent_default(),
                             }
-                            button {
-                                class: "self-center p4 absolute i-line-md:search-twotone opacity-30"
-                            }
+                            button { class: "self-center p-4 absolute i-line-md:search-twotone opacity-30" }
                         }
                     }
-                    //> CONTENT
                     article {
-                        class: "@apply grid overflow-hidden",
-                        div { class: "absolute w110% justify-self-center h100vh z0 bg-gradient-to-tl from-black via-sky-600" }
-                        div { class: "absolute w110% justify-self-center h100vh z0 bg-gradient-to-t from-black via-sky-900 animate-pulse animate-duration-5000" }
-                                div {
-                                    class: " -rotate-2 p4 -ml8 self-center min-h-max grid grid-flow-col overflow-x-scroll overflow-y-hidden",
-                                    header { class: "grid max-w-48",
-                                        h1 {
-                                            class: "text-center py-16 self-center -rotate-90 font-sans text-white text-6xl animate-pulse animate-ease-in-out",
-                                            "CHOOSE"
-                                            br{}
-                                            sup {class: "text-3xl", "YOUR HERO"}
-                                        }
-                                    }
-
-                                    match root_api {
-                                        Some(comics) => {
-                                            rsx! {
-                                                comics.data.results.iter().enumerate().map(|(index, hero)| {
-                                                    let key = hero.id;
-                                                    let thumb = format!("{}.{}", hero.thumbnail.path, hero.thumbnail.extension);
-                                                    let backdrop = format!("{}.{}", hero.thumbnail.path, hero.thumbnail.extension);
-                                                    let thumb = if thumb == "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg" {"assets/MarvelUnavailable.svg".to_string()} else {thumb};
-                                                    rsx! {
-                                                        //> CARD HOME
-                                                        Card {
-                                                            r#key: key,
-                                                            index: index,
-                                                            link_to: "/hero",
-                                                            thumb: thumb.to_string(),
-                                                            hero_name: hero.name.to_string(),
-                                                            comics_available: hero.comics.available,
-                                                            backdrop_img: backdrop,
-                                                        }
-                                                    }
-                                                })
-                                            }
-                                        },
-                                        _ => rsx! {
-                                            p {
-                                                class: "i-line-md:loading-twotone-loop p8 self-center bg-red-700 rotate-2 text-white",
-                                            }
-                                        },
-                                    }
+                        class: "grid overflow-hidden",
+                        div { class: "absolute w-[110%] justify-self-center h-screen z-0 bg-gradient-to-tl from-black via-sky-600" }
+                        div { class: "absolute w-[110%] justify-self-center h-screen z-0 bg-gradient-to-t from-black via-sky-900 animate-pulse animate-duration-5000" }
+                        div {
+                            class: "-rotate-2 p-4 -ml-8 self-center min-h-max grid grid-flow-col overflow-x-scroll overflow-y-hidden",
+                            header {
+                                class: "grid max-w-48",
+                                h1 {
+                                    class: "text-center py-16 self-center -rotate-90 font-sans text-white text-6xl animate-pulse",
+                                    "CHOOSE"
+                                    br {}
+                                    sup { class: "text-3xl", "YOUR HERO" }
                                 }
+                            }
+                            match &*root_api.read() {
+                                Some(Ok(comics)) =>
+                                    rsx! {
+                                        {comics.data.results.iter().enumerate().map(|(index, hero)| {
+                                            let thumb = format!("{}.{}", hero.thumbnail.path, hero.thumbnail.extension);
+                                            let thumb = if thumb.contains("image_not_available") {
+                                                asset!("assets/MarvelUnavailable.svg").to_string()
+                                            } else {
+                                                thumb
+                                            };
+                                            rsx! {
+                                                Card {
+                                                    key: "{hero.id}",
+                                                    index,
+                                                    link_to: "/hero",
+                                                    thumb,
+                                                    hero_name: hero.name.clone(),
+                                                    comics_available: hero.comics.available,
+                                                    backdrop_img: format!("{}.{}", hero.thumbnail.path, hero.thumbnail.extension)
+                                                }
+                                            }
+                                        })}
+                                },
+                                Some(Err(e)) => rsx! { p { "Error loading data: {e}" } },
+                                None => rsx! { p { class: "i-line-md:loading-twotone-loop p-8" } }
+                            }
                         }
                     }
                 }
             }
         }
-    )
+    }
 }
