@@ -8,8 +8,8 @@ pub fn Home(nav_open: Signal<bool>) -> Element {
 
     rsx! {
         div {
-            class: "base-container grid overflow-hidden",
-            onclick: move |_| nav_open.set(false),
+            class: "base-container bg-blue grid overflow-hidden",
+            onclick: move |_| nav_open.toggle(),
             div {
                 class: "overflow-y-hidden",
                 section {
@@ -44,26 +44,26 @@ pub fn Home(nav_open: Signal<bool>) -> Element {
                             }
                             match &*root_api.read() {
                                 Some(Ok(comics)) =>
-                                    rsx! {
-                                        {comics.data.results.iter().enumerate().map(|(index, hero)| {
-                                            let thumb = format!("{}.{}", hero.thumbnail.path, hero.thumbnail.extension);
-                                            let thumb = if thumb.contains("image_not_available") {
-                                                asset!("assets/MarvelUnavailable.svg").to_string()
-                                            } else {
-                                                thumb
-                                            };
-                                            rsx! {
-                                                Card {
-                                                    key: "{hero.id}",
-                                                    index,
-                                                    link_to: "/hero",
-                                                    thumb,
-                                                    hero_name: hero.name.clone(),
-                                                    comics_available: hero.comics.available,
-                                                    backdrop_img: format!("{}.{}", hero.thumbnail.path, hero.thumbnail.extension)
-                                                }
+                                rsx! {
+                                    {comics.data.results.iter().enumerate().map(|(index, hero)| {
+                                        let thumb = if hero.thumbnail.path.contains("image_not_available") {
+                                            asset!("assets/MarvelUnavailable.svg").into()
+                                        } else {
+                                            format!("{}.{}", hero.thumbnail.path, hero.thumbnail.extension)
+                                        };
+
+                                        rsx! {
+                                            Card {
+                                                key: "{hero.id}",
+                                                index: index,
+                                                link_to: &"/characters/{hero.id}",
+                                                thumb: thumb,
+                                                hero_name: hero.name.clone(),
+                                                comics_available: hero.comics.available,
+                                                backdrop_img: ""
                                             }
-                                        })}
+                                        }
+                                    })}
                                 },
                                 Some(Err(e)) => rsx! { p { "Error loading data: {e}" } },
                                 None => rsx! { p { class: "i-line-md:loading-twotone-loop p-8" } }

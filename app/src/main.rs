@@ -14,7 +14,7 @@ enum Route {
         // #[redirect("", "/home")]
         Home { nav_open: Signal<bool> },
 
-        #[nest("/hero")]
+        #[nest("/characters")]
             #[route("/:id")]
             HeroProfile { id: usize },
 
@@ -63,10 +63,12 @@ fn App() -> Element {
     provide_context(Signal::new(characters_data));
 
     rsx! {
-        Stylesheet { href: asset!("assets/uno.css") }
-        Stylesheet { href: asset!("assets/tailwind.min.css") }
+        Stylesheet { href: asset!("assets/output.css") }
 
-        Home { nav_open }
+        div {
+            class: "bg-blue",
+            Home { nav_open }
+         }
     }
 }
 

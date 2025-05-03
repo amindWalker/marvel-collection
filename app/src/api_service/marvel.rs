@@ -11,7 +11,6 @@ const MARVEL_API_HASH: &str = env!("MARVEL_API_HASH");
 #[derive(Clone, PartialEq, Serialize, Deserialize)]
 pub struct PageLimit(pub usize);
 
-// #[server]
 pub async fn fetch_marvel_data(limit: usize) -> Result<CharactersRoot, reqwest::Error> {
     let url = format!(
         "{}/v1/public/characters?limit={}&ts={}&apikey={}&hash={}",
@@ -24,11 +23,4 @@ pub async fn fetch_marvel_data(limit: usize) -> Result<CharactersRoot, reqwest::
         .await?
         .json::<CharactersRoot>()
         .await
-
-    // Client::get(&url)
-    //     .send()
-    //     .await?
-    //     .json::<CharactersRoot>()
-    //     .await
-    //     .map_err(|e| ServerFnError::ServerError(e.to_string()))
 }

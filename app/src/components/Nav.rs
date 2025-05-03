@@ -31,16 +31,26 @@ pub fn Nav(nav_open: Signal<bool>, limit: Signal<usize>) -> Element {
                                 class: "base-container grid grid-cols-2 p-4 pt-10 gap-x-8",
                                 p { class: "font-bold mt-4", "Range limits" }
 
-                                {(1..6).map(|item| rsx! {
-                                        input {
-                                            class: "cursor-pointer p-5 i-mdi:toggle-switch-off checked:i-mdi:toggle-switch invert",
-                                            r#type: "radio",
-                                            name: "pagination",
-                                            value: "{item}",
-                                            checked: item == 5,
-                                            oninput: move |e| limit.set(e.value().parse().unwrap_or(100)),
+                                {(1..=5).map(|item| {
+                                    let limit_val = item * 20;
+                                    rsx! {
+                                        label {
+                                            class: "flex items-center gap-2 cursor-pointer",
+                                            input {
+                                                r#type: "radio",
+                                                name: "pagination",
+                                                value: "{limit_val}",
+                                                checked: *limit.read() == limit_val,
+                                                class: "h-4 w-4 border-gray-300 text-red-700 focus:ring-red-700",
+                                                oninput: move |e| {
+                                                    if let Ok(val) = e.value().parse::<usize>() {
+                                                        limit.set(val);
+                                                    }
+                                                }
+                                            }
+                                            span { class: "font-bold", "{limit_val}" }
                                         }
-                                        p { class: "font-bold", "{item * 20}" }
+                                    }
                                 })}
                             }
                             div {

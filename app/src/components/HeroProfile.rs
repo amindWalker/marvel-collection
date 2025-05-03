@@ -1,8 +1,9 @@
 use dioxus::prelude::*;
-use crate::types::CharactersRoot;
+use crate::{types::CharactersRoot, Route};
 
 #[component]
 pub fn HeroProfile(id: usize) -> Element {
+    let nav_open = use_context::<Signal<bool>>();
     let characters = use_context::<Signal<Option<CharactersRoot>>>();
 
     rsx! {
@@ -69,7 +70,7 @@ pub fn HeroProfile(id: usize) -> Element {
 
                                     // Back button
                                     Link {
-                                        to: "/home",
+                                        to: Route::Home { nav_open },
                                         class: "inline-block mt-4 px-6 py-2 bg-red-700 text-white rounded hover:bg-red-800 transition-colors",
                                         "Back to Heroes"
                                     }

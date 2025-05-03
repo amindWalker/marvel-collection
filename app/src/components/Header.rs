@@ -1,22 +1,23 @@
 use dioxus::prelude::*;
-use crate::Nav;
 
 #[component]
 pub fn Header(nav_open: Signal<bool>) -> Element {
-    let hamburger_menu = if nav_open.cloned() { "none" } else { "block" };
-
     rsx! {
         header {
-            class: "base-container fixed z2 w-full bg-black/50 backdrop-blur flex items-center justify-center drop-shadow-lg",
+            class: "base-container fixed z-20 w-full bg-black/50 backdrop-blur-lg flex items-center justify-center drop-shadow-lg",
             i {
-                class: "i-line-md:menu absolute left-4 p4 bg-white/80 cursor-pointer {hamburger_menu}",
-                // style: "display: {hamburger_menu};",
+                class: "i-ph-list absolute left-4 p-4 bg-white/80 cursor-pointer transition-transform",
+                class: if *nav_open.read() { "block" } else { "block" },
                 onclick: move |_| nav_open.toggle(),
             }
             a {
-                class: "hover:drop-shadow-2xl hover:scale-110",
+                class: "hover:drop-shadow-2xl hover:scale-110 transition-transform",
                 href: "https://marvel.com",
-                img { src: asset!("assets/marvel.svg") }
+                img {
+                    class: "h-12 w-auto",
+                    src: asset!("assets/marvel.svg"),
+                    alt: "Marvel Logo"
+                }
             }
         }
     }
