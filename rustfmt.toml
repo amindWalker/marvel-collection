@@ -23,11 +23,11 @@ skip_children = false
 
 # Maximum line length (including comments)
 # Default: 100
-max_width = 120
+max_width = 160
 
 # Ideal line length for code (comments may still exceed this)
 # Default: 80
-ideal_width = 80
+ideal_width = 120
 
 # Number of spaces per tab
 # Default: 4

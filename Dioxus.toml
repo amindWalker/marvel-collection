@@ -179,10 +179,10 @@ pre_compress = true
 # category = "Utility"
 
 # Short description (appears in app stores/installers)
-# short_description = "Marvel comics collection"
+# short_description = "An application for..."
 
 # Long description
-# long_description = "An application for browsing Marvel comics..."
+# long_description = "An application for..."
 
 # External binaries to bundle (sidecar executables)
 # external_bin = ["binaries/my-tool"]
